@@ -16,6 +16,15 @@ export function calcularInteres(interesNominal, numeroPeriodos) {
   return TEA * 100 // Supongo que esto es decimal
 }
 
+export function calcularInteresRendimiento(
+  montoFinal,
+  montoInicial,
+  totalPeriodos
+) {
+  const tasaPeriodica = (montoFinal / montoInicial) ** (1 / totalPeriodos) - 1
+  return tasaPeriodica * 100
+}
+
 // -----------------------------------
 
 export function calcularInteresSimple() {}
