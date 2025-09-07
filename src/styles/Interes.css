@@ -1,0 +1,12 @@
+.interes-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.interes-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
