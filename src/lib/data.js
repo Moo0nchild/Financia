@@ -60,6 +60,38 @@ export const calcularInteresCompuesto =  {
 
 // -----------------------------------
 
-export function calcularAnualidad() {}
+// ../lib/anualidades.js
+export const anualidadesUtils = {
+  // Valor Futuro (anualidad ordinaria o vencida)
+  valorFuturo(A, i, n) {
+    return A * ((Math.pow(1 + i, n) - 1) / i);
+  },
+
+  // Valor Futuro (anualidad anticipada)
+  valorFuturoAnticipada(A, i, n) {
+    return this.valorFuturo(A, i, n) * (1 + i);
+  },
+
+  // Valor Presente (anualidad ordinaria o vencida)
+  valorPresente(A, i, n) {
+    return A * ((1 - Math.pow(1 + i, -n)) / i);
+  },
+
+  // Valor Presente (anualidad anticipada)
+  valorPresenteAnticipada(A, i, n) {
+    return this.valorPresente(A, i, n) * (1 + i);
+  },
+
+  // Calcular la renta (A) a partir del Valor Futuro
+  rentaDesdeVF(VF, i, n) {
+    return (VF * i) / (Math.pow(1 + i, n) - 1);
+  },
+
+  // Calcular la renta (A) a partir del Valor Presente
+  rentaDesdeVP(VA, i, n) {
+    return (VA * i) / (1 - Math.pow(1 + i, -n));
+  }
+};
+
 
 // -----------------------------------
