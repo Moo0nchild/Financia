@@ -7,7 +7,7 @@ import { InteresCompuesto } from './pages/interesCompuesto'
 export default function App() {
   return (
     <Routes>
-      <Route path='/' element={<Navigate to='/interesCompuesto' />} />
+      <Route path='/' element={<Navigate to='/interes' />} />
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
       <Route path='/interes' element={<Interes />} />

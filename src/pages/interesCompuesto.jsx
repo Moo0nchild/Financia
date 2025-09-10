@@ -1,8 +1,8 @@
 import { useState } from "react";
-import {calcularInteresCompuesto} from "../lib/data";
-
+import { calcularInteresCompuesto } from "../lib/data";
+import '../styles/interesCompuesto.css'
 export function InteresCompuesto() {
-  const [opcion, setOpcion] = useState("monto"); // valor por defecto
+  const [opcion, setOpcion] = useState("monto");
   const [capital, setCapital] = useState("");
   const [tasa, setTasa] = useState("");
   const [periodos, setPeriodos] = useState("");
@@ -13,7 +13,7 @@ export function InteresCompuesto() {
     let res = null;
 
     const C = parseFloat(capital);
-    const i = parseFloat(tasa) / 100; // convertir % a decimal
+    const i = parseFloat(tasa) / 100;
     const n = parseInt(periodos);
     const MC = parseFloat(montoFinal);
 
@@ -49,29 +49,26 @@ export function InteresCompuesto() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
-          Calculadora de Interés Compuesto
-        </h2>
+    <div className="interes-main-container">
+      <div className="interes-header">
+        <h1>Calculadora de Interés Compuesto</h1>
+      </div>
 
-        {/* Selector de opción */}
-        <div className="mb-4">
-          <label className="block text-gray-700">¿Qué deseas calcular?</label>
-          <select
-            value={opcion}
-            onChange={(e) => setOpcion(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg mt-1"
-          >
-            <option value="monto">Monto Compuesto</option>
-            <option value="interes">Interés Compuesto</option>
-            <option value="capital">Capital Inicial</option>
-            <option value="tasa">Tasa de Interés</option>
-            <option value="tiempo">Tiempo (n)</option>
-          </select>
-        </div>
+      {/* Selector */}
+      <div className="mode-selector">
+        <select value={opcion} onChange={(e) => setOpcion(e.target.value)}>
+          <option value="monto">Monto Compuesto</option>
+          <option value="interes">Interés Compuesto</option>
+          <option value="capital">Capital Inicial</option>
+          <option value="tasa">Tasa de Interés</option>
+          <option value="tiempo">Tiempo (n)</option>
+        </select>
+      </div>
 
-        {/* Inputs dinámicos */}
+      {/* Contenedor principal */}
+      <div className="interes-container">
+        <h1>Datos</h1>
+
         {(opcion === "monto" || opcion === "interes") && (
           <>
             <Input label="Capital Inicial ($)" value={capital} onChange={setCapital} />
@@ -104,16 +101,14 @@ export function InteresCompuesto() {
           </>
         )}
 
-        <button
-          onClick={calcular}
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition mt-4"
-        >
+        <button onClick={calcular} className="calculate-btn">
           Calcular
         </button>
 
         {resultado && (
-          <div className="mt-6 bg-gray-50 p-4 rounded-lg text-center">
-            <p className="text-lg font-semibold text-gray-800">{resultado}</p>
+          <div className="result-container">
+            <p className="result-text">Resultado:</p>
+            <span className="result-value">{resultado}</span>
           </div>
         )}
       </div>
@@ -121,14 +116,13 @@ export function InteresCompuesto() {
   );
 }
 
-// Componente de input reutilizable
+// Input reutilizable con tu CSS
 function Input({ label, value, onChange }) {
   return (
-    <div className="mb-4">
-      <label className="block text-gray-700">{label}</label>
+    <div className="form-group">
+      <label>{label}</label>
       <input
         type="number"
-        className="w-full px-3 py-2 border rounded-lg mt-1"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
