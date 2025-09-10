@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { anualidadesUtils } from "../lib/data";
-
+import '../styles/Anualidades.css'
 
 // 📌 Componente principal
-export  function Anualidades() {
+export function Anualidades() {
   const [opcion, setOpcion] = useState("vf"); // qué calcular
   const [pago, setPago] = useState("");
   const [tasa, setTasa] = useState("");
@@ -52,20 +52,15 @@ export  function Anualidades() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
-          Calculadora de Anualidades
-        </h2>
+    <div className="anualidad-main-container">
+      <header className="anualidad-header">
+        <h1>Calculadora de Anualidades</h1>
+      </header>
 
-        {/* Selector */}
-        <div className="mb-4">
-          <label className="block text-gray-700">¿Qué deseas calcular?</label>
-          <select
-            value={opcion}
-            onChange={(e) => setOpcion(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg mt-1"
-          >
+      <div className="anualidad-container">
+        <div className="mode-selector">
+          <label>¿Qué deseas calcular?</label>
+          <select value={opcion} onChange={(e) => setOpcion(e.target.value)}>
             <option value="vf">Valor Futuro (ordinaria)</option>
             <option value="vfAnt">Valor Futuro (anticipada)</option>
             <option value="vp">Valor Presente (ordinaria)</option>
@@ -76,40 +71,40 @@ export  function Anualidades() {
         </div>
 
         {/* Inputs dinámicos */}
-        {(opcion === "vf" || opcion === "vfAnt" || opcion === "vp" || opcion === "vpAnt") && (
-          <>
-            <Input label="Pago periódico (A)" value={pago} onChange={setPago} />
-            <Input label="Tasa de interés (%)" value={tasa} onChange={setTasa} />
-            <Input label="Número de periodos (n)" value={periodos} onChange={setPeriodos} />
-          </>
-        )}
+        <form className="anualidad-form">
+          {(opcion === "vf" || opcion === "vfAnt" || opcion === "vp" || opcion === "vpAnt") && (
+            <>
+              <FormGroup label="Pago periódico (A)" value={pago} onChange={setPago} />
+              <FormGroup label="Tasa de interés (%)" value={tasa} onChange={setTasa} />
+              <FormGroup label="Número de periodos (n)" value={periodos} onChange={setPeriodos} />
+            </>
+          )}
 
-        {opcion === "rentaVF" && (
-          <>
-            <Input label="Valor Futuro (VF)" value={valorFinal} onChange={setValorFinal} />
-            <Input label="Tasa de interés (%)" value={tasa} onChange={setTasa} />
-            <Input label="Número de periodos (n)" value={periodos} onChange={setPeriodos} />
-          </>
-        )}
+          {opcion === "rentaVF" && (
+            <>
+              <FormGroup label="Valor Futuro (VF)" value={valorFinal} onChange={setValorFinal} />
+              <FormGroup label="Tasa de interés (%)" value={tasa} onChange={setTasa} />
+              <FormGroup label="Número de periodos (n)" value={periodos} onChange={setPeriodos} />
+            </>
+          )}
 
-        {opcion === "rentaVP" && (
-          <>
-            <Input label="Valor Presente (VP)" value={valorPresente} onChange={setValorPresente} />
-            <Input label="Tasa de interés (%)" value={tasa} onChange={setTasa} />
-            <Input label="Número de periodos (n)" value={periodos} onChange={setPeriodos} />
-          </>
-        )}
+          {opcion === "rentaVP" && (
+            <>
+              <FormGroup label="Valor Presente (VP)" value={valorPresente} onChange={setValorPresente} />
+              <FormGroup label="Tasa de interés (%)" value={tasa} onChange={setTasa} />
+              <FormGroup label="Número de periodos (n)" value={periodos} onChange={setPeriodos} />
+            </>
+          )}
+        </form>
 
-        <button
-          onClick={calcular}
-          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition mt-4"
-        >
+        <button onClick={calcular} className="calculate-btn">
           Calcular
         </button>
 
         {resultado && (
-          <div className="mt-6 bg-gray-50 p-4 rounded-lg text-center">
-            <p className="text-lg font-semibold text-gray-800">{resultado}</p>
+          <div className="result-container">
+            <p className="result-text">Resultado</p>
+            <span className="result-value">{resultado}</span>
           </div>
         )}
       </div>
@@ -117,17 +112,12 @@ export  function Anualidades() {
   );
 }
 
-// Input reutilizable
-function Input({ label, value, onChange }) {
+// Input reutilizable con estilos de la página
+function FormGroup({ label, value, onChange }) {
   return (
-    <div className="mb-4">
-      <label className="block text-gray-700">{label}</label>
-      <input
-        type="number"
-        className="w-full px-3 py-2 border rounded-lg mt-1"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
+    <div className="form-group">
+      <label>{label}</label>
+      <input type="number" value={value} onChange={(e) => onChange(e.target.value)} />
     </div>
   );
 }
