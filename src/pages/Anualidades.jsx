@@ -2,9 +2,8 @@ import { useState } from "react";
 import { anualidadesUtils } from "../lib/data";
 import '../styles/Anualidades.css'
 
-// 📌 Componente principal
 export function Anualidades() {
-  const [opcion, setOpcion] = useState("vf"); // qué calcular
+  const [opcion, setOpcion] = useState("vf"); 
   const [pago, setPago] = useState("");
   const [tasa, setTasa] = useState("");
   const [periodos, setPeriodos] = useState("");
@@ -14,7 +13,7 @@ export function Anualidades() {
 
   const calcular = () => {
     const A = parseFloat(pago);
-    const i = parseFloat(tasa) / 100; // convertir % a decimal
+    const i = parseFloat(tasa) / 100; 
     const n = parseInt(periodos);
     const VF = parseFloat(valorFinal);
     const VA = parseFloat(valorPresente);

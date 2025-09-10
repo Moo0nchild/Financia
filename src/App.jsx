@@ -8,7 +8,7 @@ import {Anualidades} from './pages/Anualidades'
 export default function App() {
   return (
     <Routes>
-      <Route path='/' element={<Navigate to='/anualidades' />} />
+      <Route path='/' element={<Navigate to='/login' />} />
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
       <Route path='/interes' element={<Interes />} />
@@ -17,3 +17,4 @@ export default function App() {
     </Routes>
   )
 }
+
