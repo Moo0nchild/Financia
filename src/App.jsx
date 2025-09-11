@@ -4,7 +4,7 @@ import Register from './pages/Register'
 import { Navigate } from 'react-router-dom'
 import { Interes } from './pages/Interes'
 import { InteresCompuesto } from './pages/interesCompuesto'
-import {Anualidades} from './pages/Anualidades'
+import { Anualidades } from './pages/Anualidades'
 export default function App() {
   return (
     <Routes>
@@ -17,4 +17,3 @@ export default function App() {
     </Routes>
   )
 }
-

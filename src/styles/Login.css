@@ -1,5 +1,6 @@
 /* Fondo con degradado en toda la pantalla */
-body, #root {
+body,
+#root {
   margin: 0;
   height: 100vh;
   display: flex;
@@ -34,11 +35,13 @@ body, #root {
   font-size: 28px;
   box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
 }
+
 .login-header h1 {
   font-size: 1.6rem;
   margin: 0.5rem 0;
   color: #1f2937;
 }
+
 .login-header p {
   font-size: 0.9rem;
   color: #6b7280;
@@ -51,12 +54,14 @@ body, #root {
   margin-top: 1.5rem;
   text-align: left;
 }
+
 .login-form label {
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 0.3rem;
   color: #374151;
 }
+
 .login-form input {
   padding: 0.6rem;
   margin-bottom: 1rem;
@@ -66,10 +71,12 @@ body, #root {
   outline: none;
   transition: 0.2s;
 }
+
 .login-form input:focus {
   border-color: #6366f1;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
 }
+
 .login-form button {
   padding: 0.7rem;
   background: #6366f1;
@@ -80,6 +87,7 @@ body, #root {
   cursor: pointer;
   transition: 0.3s;
 }
+
 .login-form button:hover {
   background: #4f46e5;
 }
@@ -90,11 +98,13 @@ body, #root {
   font-size: 0.85rem;
   color: #6b7280;
 }
+
 .login-footer .link {
   color: #6366f1;
   text-decoration: none;
   font-weight: 600;
 }
+
 .login-footer .link:hover {
   text-decoration: underline;
 }

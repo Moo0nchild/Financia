@@ -4,7 +4,6 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { Link } from 'react-router-dom'
 import '../styles/Register.css'
 
-
 export default function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
