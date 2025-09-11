@@ -1,29 +1,64 @@
 import { useState } from 'react'
-import { auth } from '../firebase/firabaseConfig.js'
+import { auth, db } from '../firebase/firabaseConfig.js'
+import { collection, query, where, getDocs } from 'firebase/firestore'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import '../styles/Login.css'
 
 export default function Login() {
-  const [email, setEmail] = useState('')
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const [uid, setUid] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true) 
+
     try {
+      const q = query(collection(db, "users"), where("uid", "==", uid))
+      const querySnapshot = await getDocs(q)
+
+      if (querySnapshot.empty) {
+        alert("No se encontró usuario con esa cédula")
+        setLoading(false)
+        return
+      }
+
+      const userData = querySnapshot.docs[0].data()
+      const email = userData.Email
+
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       )
-      alert(`Bienvenido ${userCredential.user.email}`)
+
+      navigate("/home", { 
+        state: { 
+          user: {
+            uid: userCredential.user.uid,
+            email: userCredential.user.email,
+            name: userData.name || "Sin nombre"
+          }
+        }
+      })
     } catch (error) {
-      alert('Error: ' + error.message)
+      alert("Error: " + error.message)
+    } finally {
+      setLoading(false) 
     }
   }
 
   return (
     <div className='login-container'>
+      {loading && (
+        <div className="overlay">
+          <div className="spinner"></div>
+          <p>Cargando...</p>
+        </div>
+      )}
+
       <div className='login-card'>
         <div className='login-header'>
           <div className='login-icon'>🔐</div>
@@ -32,12 +67,12 @@ export default function Login() {
         </div>
 
         <form onSubmit={handleSubmit} className='login-form'>
-          <label>Correo</label>
+          <label>Cédula</label>
           <input
-            type='email'
-            placeholder='you@example.com'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type='text'
+            placeholder='12345'
+            value={uid}
+            onChange={(e) => setUid(e.target.value)}
           />
 
           <label>Contraseña</label>
@@ -48,7 +83,9 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button type='submit'>Iniciar sesión</button>
+          <button type='submit' disabled={loading}>
+            {loading ? "Cargando..." : "Iniciar sesión"}
+          </button>
         </form>
 
         <p className='login-footer'>
