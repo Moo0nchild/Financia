@@ -41,7 +41,7 @@ export default function Register() {
         <form onSubmit={handleSubmit} className='login-form'>
           <label>Correo</label>
           <input
-            type='email'
+            type='text'
             placeholder='you@example.com'
             value={email}
             onChange={(e) => setEmail(e.target.value)}

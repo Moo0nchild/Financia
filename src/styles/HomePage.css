@@ -1,0 +1,101 @@
+/* Contenedor principal */
+.home-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f6fa;
+  min-height: 100vh;
+}
+
+/* Navbar fijo arriba */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #1e1e2f;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 30px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* Logo + menú */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #4da6ff;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #ddd;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #4da6ff;
+}
+
+/* Perfil a la derecha */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 30px;  /* más espacio a la derecha */
+  padding-top: 5px;     /* separa de arriba */
+  padding-bottom: 5px;  /* separa de abajo */
+}
+
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #4dabf7; /* azul suave */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(77, 171, 247, 0.7);
+}
+
+
+.username {
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+/* Contenido principal */
+.main-content {
+  margin-top: 100px; /* para que no quede tapado por el navbar */
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.main-content h1 {
+  font-size: 32px;
+  color: #1e1e2f;
+}
+
+.main-content p {
+  font-size: 18px;
+  color: #555;
+}
