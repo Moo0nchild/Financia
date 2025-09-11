@@ -13,7 +13,7 @@ export default function Home() {
       {/* Barra de navegación */}
       <nav className="navbar">
         <div className="nav-left">
-          <h2 className="logo">MiApp</h2>
+          <h2 className="logo">Banco Mundo Dev</h2>
           <ul className="nav-links">
             <li><Link to="/home">Inicio</Link></li>
             <li><Link to="/profile">Perfil</Link></li>
