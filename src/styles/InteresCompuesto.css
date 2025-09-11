@@ -1,3 +1,18 @@
+/* .interes-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.interes-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+} */
+
+
+
 .interes-main-container {
     max-width: 800px;
     margin: 0 auto;
@@ -143,6 +158,7 @@
     transition: all 0.3s ease;
     margin-top: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 .calculate-btn:hover {
