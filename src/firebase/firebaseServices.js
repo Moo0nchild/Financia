@@ -1,5 +1,5 @@
 
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
+import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from 'firebase/auth'
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore'
 import { auth, db } from './firabaseConfig'
 
@@ -34,4 +34,17 @@ export const registerUser = async (userData) => {
   })
 
   return user
+}
+
+
+export const resetPassword = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email, {
+      url: window.location.origin + '/login', 
+      handleCodeInApp: false
+    })
+    alert('Se ha enviado un correo para restablecer tu contraseña. Revisa tu bandeja de entrada.')
+  } catch (error) {
+    alert('Error al enviar correo de restablecimiento: ' + error.message)
+  }
 }

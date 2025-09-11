@@ -4,6 +4,7 @@ import { auth, db } from '../firebase/firabaseConfig.js'
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore'
 import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
+import Logo from '../assets/Logo.png';
 import '../styles/Login.css'
 
 export default function Login() {
@@ -73,7 +74,7 @@ export default function Login() {
     setLoading(true)
     try {
       await sendEmailVerification(userForResend, {
-        url: 'http://localhost:5173/login',
+        url: window.location.origin + '/login',
         handleCodeInApp: false
       })
       alert("Correo de verificación reenviado. Revisa tu bandeja de entrada.")
@@ -96,7 +97,7 @@ export default function Login() {
 
       <div className='login-card'>
         <div className='login-header'>
-          <div className='login-icon'>🔐</div>
+          <img src= {Logo}   alt="LOGO"  className='login-icon'/>
           <h1>Bienvenido</h1>
           <p>Inicia sesión para continuar</p>
         </div>
@@ -133,6 +134,12 @@ export default function Login() {
           ¿No tienes cuenta?{' '}
           <Link to='/register' className='link'>
             Regístrate
+          </Link>
+        </p>
+        <p className='login-footer'>
+          Olvidé mi contraseña{' '}
+          <Link to='/ForgotPassword' className='link'>
+            Restablecer
           </Link>
         </p>
       </div>

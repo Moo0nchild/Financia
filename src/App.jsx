@@ -6,6 +6,7 @@ import { Interes } from './pages/Interes'
 import { InteresCompuesto } from './pages/interesCompuesto'
 import { Anualidades } from './pages/Anualidades'
 import Home from './pages/HomePage'
+import ForgotPassword from './pages/ForgotPassword'
 export default function App() {
   return (
     <Routes>
@@ -16,6 +17,7 @@ export default function App() {
       <Route path='/interesCompuesto' element={<InteresCompuesto />} />
       <Route path='/anualidades' element={<Anualidades />} />
       <Route path='/home' element={<Home />} />
+      <Route path='/forgotPassword' element={<ForgotPassword />} />
     </Routes>
   )
 }
