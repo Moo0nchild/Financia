@@ -12,22 +12,20 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (password !== confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       alert('Las contraseñas no coinciden')
       return
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      )
-      alert(`Cuenta creada: ${userCredential.user.email}`)
+      const user = await registerUser(formData)
+      alert(`Cuenta creada para: ${formData.nombres} ${formData.apellidos}. Revisa tu correo para verificar tu cuenta.`)
+      console.log('Usuario registrado:', user)
     } catch (error) {
       alert('Error: ' + error.message)
     }
   }
+
 
   return (
     <div className='login-container'>
