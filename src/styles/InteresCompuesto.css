@@ -55,9 +55,11 @@
     text-align: center;
 }
 
+
+
 .mode-selector select {
     padding: 12px 20px;
-    border-radius: 8px;
+    border-radius: 50px;
     border: 2px solid #ddd;
     background-color: white;
     font-size: 1rem;
@@ -68,6 +70,9 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     outline: none;
 }
+
+
+
 
 .mode-selector select:focus {
     border-color: #3498db;

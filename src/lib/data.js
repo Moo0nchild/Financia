@@ -31,11 +31,10 @@ export function calcularInteresSimple() {}
 
 export const calcularInteresCompuesto = {
   // Calcular el Monto Compuesto
-  calcularMontoCompuesto(capitalInicial, tasa, periodos) {
-    return capitalInicial * Math.pow(1 + tasa, periodos)
+  calcularMontoCompuesto(capitalInicial, tasaDiaria, totalDias) {
+    return capitalInicial * Math.pow(1 + tasaDiaria, totalDias);
   },
 
-  // Calcular el Interés Compuesto
   calcularInteresCompuesto(capitalInicial, tasa, periodos) {
     return (
       this.calcularMontoCompuesto(capitalInicial, tasa, periodos) -
@@ -57,6 +56,20 @@ export const calcularInteresCompuesto = {
   calcularCapitalInicial(montoFinal, tasa, periodos) {
     return montoFinal / Math.pow(1 + tasa, periodos)
   },
+}
+
+
+function convertirAPeriodosEnDias(periodos, frecuencia) {
+  const equivalencias = {
+    diario: 1,
+    mensual: 30,
+    trimestral: 90,
+    cuatrimestral: 120,
+    semestral: 180,
+    anual: 360
+  }
+
+  return periodos * equivalencias[frecuencia.toLowerCase()]
 }
 
 // -----------------------------------
