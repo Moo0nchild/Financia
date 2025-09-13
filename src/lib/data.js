@@ -1,38 +1,31 @@
-// Este archivo sirve para organizar las operaciones matematicas en un solo lugar, y no tenerlas
-// dentro de los mismos componentes
-
 export const calcularInteres = {
   calcularTea(interesNominal, numeroPeriodos) {
-    // Para calcular el interes tuve que recurrir a buscar en deepseek xd
-    // la formula que voy a usar es la de la tasa efectiva anual (TEA)
-    // que nos dice cual es el porcentaje de crecimiento real de nuestro dinero en un periodo
-    // de un año, teniendo en cuenta la capitalizacion
-    // TEA = (1 + (r/n))^n - 1
-    // TEA = tasa efectiva anual (expresada en decimal)
-    // r = tasa de interes nominal anual (la que anuncia el banco, también en decimal)
-    // n = numero de periodos (mensual=12, trimestral=4, diario=365)
-
-    const TEA = (1 + interesNominal / numeroPeriodos) ** numeroPeriodos - 1
-
-    return TEA * 100 // Supongo que esto es decimal
+    return ((1 + interesNominal / numeroPeriodos) ** numeroPeriodos - 1) * 100 // Supongo que esto es decimal
   },
 
   calcularInteresRendimiento(montoFinal, montoInicial, totalPeriodos) {
-    const tasaPeriodica = (montoFinal / montoInicial) ** (1 / totalPeriodos) - 1
-    return tasaPeriodica * 100
+    return ((montoFinal / montoInicial) ** (1 / totalPeriodos) - 1) * 100
   },
 }
 
 // -----------------------------------
 
-export function calcularInteresSimple() {}
+export const calcularInteresSimple = {
+  calcularInteresSimple(capitalInicial, tasa, periodos) {
+    return capitalInicial * tasa * periodos // no se si es decimal
+  },
+
+  calcularValorFuturo(capitalInicial, tasa, periodos) {
+    return capitalInicial * (1 + tasa * periodos)
+  },
+}
 
 // -----------------------------------
 
 export const calcularInteresCompuesto = {
   // Calcular el Monto Compuesto
   calcularMontoCompuesto(capitalInicial, tasaDiaria, totalDias) {
-    return capitalInicial * Math.pow(1 + tasaDiaria, totalDias);
+    return capitalInicial * Math.pow(1 + tasaDiaria, totalDias)
   },
 
   calcularInteresCompuesto(capitalInicial, tasa, periodos) {
@@ -58,7 +51,6 @@ export const calcularInteresCompuesto = {
   },
 }
 
-
 function convertirAPeriodosEnDias(periodos, frecuencia) {
   const equivalencias = {
     diario: 1,
@@ -66,7 +58,7 @@ function convertirAPeriodosEnDias(periodos, frecuencia) {
     trimestral: 90,
     cuatrimestral: 120,
     semestral: 180,
-    anual: 360
+    anual: 360,
   }
 
   return periodos * equivalencias[frecuencia.toLowerCase()]
