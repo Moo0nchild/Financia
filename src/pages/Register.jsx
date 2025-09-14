@@ -24,6 +24,8 @@ export default function Register() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+    if (formData.password !== formData.confirmPassword) {
+
   // Validación básica
   const validateForm = () => {
     const { nombres, apellidos, documento, telefono, direccion, fechaNacimiento, email, password, confirmPassword } = formData
@@ -32,6 +34,7 @@ export default function Register() {
       return false
     }
     if (password !== confirmPassword) {
+
       alert('Las contraseñas no coinciden')
       return false
     }
@@ -49,6 +52,10 @@ export default function Register() {
     setLoading(true)
     try {
       const user = await registerUser(formData)
+
+      alert(`Cuenta creada para: ${formData.nombres} ${formData.apellidos}. Revisa tu correo para verificar tu cuenta.`)
+      console.log('Usuario registrado:', user)
+
       alert(`Cuenta creada para ${formData.nombres} ${formData.apellidos}. Revisa tu correo para verificar la cuenta.`)
       console.log('Usuario registrado:', user)
 
@@ -75,6 +82,7 @@ export default function Register() {
       setLoading(false)
     }
   }
+
 
   return (
     <div className='login-container'>

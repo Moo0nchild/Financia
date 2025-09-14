@@ -1,4 +1,24 @@
 
+import { auth, db } from './firabaseConfig.js'
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
+
+export const registerUser = async (userData) => {
+  const { email, password, ...rest } = userData
+
+  // Crear usuario
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+
+  // Enviar correo de verificación
+  await sendEmailVerification(userCredential.user)
+
+  // Guardar datos en Firestore
+  await setDoc(doc(db, 'users', userCredential.user.uid), rest)
+
+  return userCredential.user
+}
+
+
 import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from 'firebase/auth'
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore'
 import { auth, db } from './firabaseConfig'
@@ -32,7 +52,6 @@ export const registerUser = async (userData) => {
     fechaCreacionCuenta: serverTimestamp(),
     verificado: false // lo actualizarás cuando confirme el correo
   })
-
   return user
 }
 
@@ -48,3 +67,4 @@ export const resetPassword = async (email) => {
     alert('Error al enviar correo de restablecimiento: ' + error.message)
   }
 }
+

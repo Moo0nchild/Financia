@@ -1,10 +1,16 @@
 // Login.jsx
 import { useState } from 'react'
 import { auth, db } from '../firebase/firabaseConfig.js'
+
+import { collection, query, where, getDocs } from 'firebase/firestore'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { Link, useNavigate } from 'react-router-dom'
+
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore'
 import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 import Logo from '../assets/Logo.png';
+
 import '../styles/Login.css'
 
 export default function Login() {
@@ -18,6 +24,39 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true) 
+
+    try {
+      const q = query(collection(db, "users"), where("uid", "==", uid))
+      const querySnapshot = await getDocs(q)
+
+      if (querySnapshot.empty) {
+        alert("No se encontró usuario con esa cédula")
+        setLoading(false)
+        return
+      }
+
+      const userData = querySnapshot.docs[0].data()
+      const email = userData.Email
+
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
+
+      navigate("/home", { 
+        state: { 
+          user: {
+            uid: userCredential.user.uid,
+            email: userCredential.user.email,
+            name: userData.name || "Sin nombre"
+          }
+        }
+      })
+    } catch (error) {
+      alert("Error: " + error.message)
+    } finally {
+      setLoading(false) 
 
     try {
       // Buscar usuario por cédula
