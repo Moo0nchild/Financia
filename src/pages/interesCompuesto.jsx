@@ -8,6 +8,7 @@ export function InteresCompuesto() {
   const [tasa, setTasa] = useState('')
   const [periodos, setPeriodos] = useState('')
   const [montoFinal, setMontoFinal] = useState('')
+
   const [unidad, setUnidad] = useState('anual') 
   const [resultado, setResultado] = useState(null)
 
@@ -18,6 +19,18 @@ export function InteresCompuesto() {
     cuatrimestral: { diasPorPeriodo: 120 },
     semestral: { diasPorPeriodo: 180 },
     anual: { diasPorPeriodo: 360 }
+
+  const [unidad, setUnidad] = useState('anual') // 👈 frecuencia inicial
+  const [resultado, setResultado] = useState(null)
+
+  const frecuencias = {
+  diaria: { diasPorPeriodo: 1 },
+  mensual: { diasPorPeriodo: 30 },
+  trimestral: { diasPorPeriodo: 90 },
+  cuatrimestral: { diasPorPeriodo: 120 },
+  semestral: { diasPorPeriodo: 180 },
+  anual: { diasPorPeriodo: 360 }
+
   }
 
   const calcular = () => {
@@ -65,6 +78,16 @@ export function InteresCompuesto() {
         break
 
 
+      case 'tasa':
+        res = calcularInteresCompuesto.calcularTasa(C, MC, totalDias)
+        setResultado(`Tasa de Interés: ${(res * 100).toFixed(2)}% anual`)
+        break
+
+      case 'tiempo':
+        res = calcularInteresCompuesto.calcularTiempo(C, MC, tasaDiaria)
+        setResultado(`Tiempo: ${res.toFixed(2)} días`)
+        break
+
       default:
         setResultado('Selecciona una opción válida')
     }
@@ -77,6 +100,10 @@ export function InteresCompuesto() {
         <h1>Calculadora de Interés Compuesto</h1>
       </div>
 
+
+
+      {/* Selector de cálculo */}
+
       <div className='mode-selector'>
         <select value={opcion} onChange={(e) => setOpcion(e.target.value)}>
           <option value='monto'>Monto Compuesto</option>
@@ -87,6 +114,7 @@ export function InteresCompuesto() {
         </select>
       </div>
 
+
       <div className='interes-container'>
         <h1>Datos</h1>
 
@@ -94,6 +122,19 @@ export function InteresCompuesto() {
           <>
             <Input label='Capital Inicial ($)' value={capital} onChange={setCapital} />
             <Input label='Tasa de Interés (%)' value={tasa} onChange={setTasa} />
+
+              <div className=''>
+                <label>Frecuencia:</label>
+                <select value={unidad} onChange={(e) => setUnidad(e.target.value)}>
+                  <option value='diaria'>Diaria</option>
+                  <option value='mensual'>Mensual</option>
+                  <option value='trimestral'>Trimestral</option>
+                  <option value='cuatrimestral'>Cuatrimestral</option>
+                  <option value='semestral'>Semestral</option>
+                  <option value='anual'>Anual</option>
+                </select>
+              </div>
+
             <Input label={`Número de Periodos (${unidad})`} value={periodos} onChange={setPeriodos} />
           </>
         )}
