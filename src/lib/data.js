@@ -1,66 +1,67 @@
+// -----------------------------------
+// Interés (TEA y rendimiento)
+// -----------------------------------
 export const calcularInteres = {
   calcularTea(interesNominal, numeroPeriodos) {
-    return ((1 + interesNominal / numeroPeriodos) ** numeroPeriodos - 1) * 100 // Supongo que esto es decimal
+    // Tasa Efectiva Anual
+    return ((1 + interesNominal / numeroPeriodos) ** numeroPeriodos - 1) * 100
   },
 
   calcularInteresRendimiento(montoFinal, montoInicial, totalPeriodos) {
+    // Rendimiento efectivo por periodo
     return ((montoFinal / montoInicial) ** (1 / totalPeriodos) - 1) * 100
   },
 }
 
 // -----------------------------------
-
+// Interés Simple
+// -----------------------------------
 export const calcularInteresSimple = {
   calcularInteresSimple(capitalInicial, tasa, periodos) {
-    return capitalInicial * tasa * periodos // no se si es decimal
+    // I = C * i * n
+    return capitalInicial * tasa * periodos
   },
 
   calcularValorFuturo(capitalInicial, tasa, periodos) {
+    // VF = C * (1 + i*n)
     return capitalInicial * (1 + tasa * periodos)
   },
 }
 
 // -----------------------------------
-
+// Interés Compuesto
+// -----------------------------------
 export const calcularInteresCompuesto = {
-  // Calcular el Monto Compuesto
-
+  // Monto Compuesto
   calcularMontoCompuesto(capitalInicial, tasa, periodos) {
-    return capitalInicial * (1 + tasa)**periodos;
+    return capitalInicial * Math.pow(1 + tasa, periodos)
   },
-  
+
+  // Tasa de interés
   calcularTasa(capitalInicial, montoFinal, periodos) {
-    return (montoFinal / capitalInicial)**(1/periodos) -1; 
-
-  calcularMontoCompuesto(capitalInicial, tasaDiaria, totalDias) {
-    return capitalInicial * Math.pow(1 + tasaDiaria, totalDias)
+    return Math.pow(montoFinal / capitalInicial, 1 / periodos) - 1
   },
 
+  // Interés Compuesto (ganancia)
   calcularInteresCompuesto(capitalInicial, tasa, periodos) {
-    return (
-      this.calcularMontoCompuesto(capitalInicial, tasa, periodos) -
-      capitalInicial
-    )
-
+    return this.calcularMontoCompuesto(capitalInicial, tasa, periodos) - capitalInicial
   },
-  
+
+  // Tiempo (n)
   calcularTiempo(capitalInicial, montoFinal, tasa) {
     return Math.log(montoFinal / capitalInicial) / Math.log(1 + tasa)
   },
 
-  calcularInteresCompuesto(capitalInicial, tasa, periodos) {
-    return (
-      this.calcularMontoCompuesto(capitalInicial, tasa, periodos) - capitalInicial
-    )
-  },
-
+  // Capital Inicial
   calcularCapitalInicial(montoFinal, tasa, periodos) {
     return montoFinal / Math.pow(1 + tasa, periodos)
   },
 }
 
-
-function convertirAPeriodosEnDias(periodos, frecuencia) {
+// -----------------------------------
+// Conversión de periodos a días
+// -----------------------------------
+export function convertirAPeriodosEnDias(periodos, frecuencia) {
   const equivalencias = {
     diario: 1,
     mensual: 30,
@@ -73,10 +74,9 @@ function convertirAPeriodosEnDias(periodos, frecuencia) {
   return periodos * equivalencias[frecuencia.toLowerCase()]
 }
 
-
 // -----------------------------------
-
-// ../lib/anualidades.js
+// Anualidades
+// -----------------------------------
 export const anualidadesUtils = {
   // Valor Futuro (anualidad ordinaria o vencida)
   valorFuturo(A, i, n) {
@@ -108,4 +108,3 @@ export const anualidadesUtils = {
     return (VA * i) / (1 - Math.pow(1 + i, -n))
   },
 }
-
