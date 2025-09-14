@@ -2,10 +2,6 @@
 import { useState } from 'react'
 import { auth, db } from '../firebase/firabaseConfig.js'
 
-import { collection, query, where, getDocs } from 'firebase/firestore'
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { Link, useNavigate } from 'react-router-dom'
-
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore'
 import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
@@ -184,4 +180,5 @@ export default function Login() {
       </div>
     </div>
   )
-}
+
+}}
