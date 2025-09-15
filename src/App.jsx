@@ -15,6 +15,7 @@ import Layout from './components/Layout'
 import { AuthProvider } from './pages/AuthProvider'
 import ServiciosPage from './pages/servicios'
 import ProtectedRoute from './pages/ProtectedRoute'
+import Dashboard from './pages/Dashboard'
 
 function AnimatedRoutes() {
   return (
@@ -24,6 +25,7 @@ function AnimatedRoutes() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/forgotPassword' element={<ForgotPassword />} />
+        <Route path='/dashboard' element={<Dashboard />} />
 
         <Route path='/servicios' element={<ServiciosPage />} />
 
