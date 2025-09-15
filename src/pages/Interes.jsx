@@ -1,51 +1,7 @@
-import { useState } from 'react'
-import { calcularInteres } from '../lib/data'
 import PageWrapper from '../components/PageWrapper'
+import { Link } from 'react-router-dom'
 
 export function Interes() {
-  const [resultado, setResultado] = useState(null)
-  const [opcion, setOpcion] = useState(true)
-
-  // estados para inputs
-  const [interes, setInteres] = useState('')
-  const [periodos, setPeriodos] = useState('')
-  const [montoFinal, setMontoFinal] = useState('')
-  const [montoInicial, setMontoInicial] = useState('')
-  const [totalPeriodos, setTotalPeriodos] = useState('')
-
-  function onSubmit(e) {
-    e.preventDefault()
-    const resultadoCalculo = calcularInteres.calcularTea(
-      parseFloat(interes),
-      parseFloat(periodos)
-    )
-    setResultado(resultadoCalculo)
-  }
-
-  function onSubmitRendimiento(e) {
-    e.preventDefault()
-    const resultadoCalculoRendimiento =
-      calcularInteres.calcularInteresRendimiento(
-        parseFloat(montoFinal),
-        parseFloat(montoInicial),
-        parseFloat(totalPeriodos)
-      )
-    setResultado(resultadoCalculoRendimiento)
-  }
-
-  function handleSelectChange(e) {
-    const value = e.target.value === 'true'
-    setOpcion(value)
-    setResultado(null)
-
-    // limpiar todos los inputs
-    setInteres('')
-    setPeriodos('')
-    setMontoFinal('')
-    setMontoInicial('')
-    setTotalPeriodos('')
-  }
-
   return (
     <PageWrapper>
       <div className='min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-8 px-4'>
@@ -53,228 +9,207 @@ export function Interes() {
           {/* Header */}
           <div className='text-center mb-8'>
             <h1 className='text-4xl font-bold text-gray-800 mb-2'>
-              Calculadora de Interés
+              Tasa de Interés
             </h1>
             <p className='text-gray-600'>
-              Herramienta para calcular tasas de interés efectivas
+              Conoce todo sobre las tasas de interés y su importancia en el
+              mundo financiero
             </p>
           </div>
 
-          {/* Selector de modo */}
-          <div className='mb-8 bg-white rounded-xl shadow-lg p-6'>
-            <label
-              htmlFor='mode-select'
-              className='block text-sm font-medium text-gray-700 mb-2'
-            >
-              Selecciona el tipo de cálculo:
-            </label>
-            <select
-              id='mode-select'
-              onChange={handleSelectChange}
-              className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-gray-50'
-            >
-              <option value='true'>Según la tasa efectiva anual (TEA)</option>
-              <option value='false'>
-                Según la tasa de rendimiento geométrica (TRG)
-              </option>
-            </select>
+          {/* Contenedor principal */}
+          <div className='bg-white rounded-xl shadow-lg overflow-hidden mb-8'>
+            {/* Header con gradiente */}
+            <div className='bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white'>
+              <h2 className='text-2xl font-semibold mb-2'>
+                ¿Qué es la tasa de interés?
+              </h2>
+            </div>
+
+            <div className='p-6'>
+              <div className='prose prose-indigo max-w-none'>
+                <p className='text-gray-700 mb-6'>
+                  La tasa de interés es el precio del dinero en el tiempo.
+                  Representa el porcentaje que se cobra por prestar dinero o el
+                  rendimiento que se obtiene por invertir dinero durante un
+                  período determinado. Es fundamentalmente el costo de usar
+                  capital ajeno o la recompensa por renunciar al uso inmediato
+                  del dinero propio.
+                </p>
+              </div>
+            </div>
           </div>
 
-          {opcion ? (
-            <div className='bg-white rounded-xl shadow-lg overflow-hidden'>
-              {/* Header TEA */}
-              <div className='bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white'>
-                <h2 className='text-2xl font-semibold mb-2'>
-                  Tasa Efectiva Anual (TEA)
-                </h2>
-                <p className='opacity-90'>
-                  Calcula el porcentaje de crecimiento real de tu dinero en un
-                  año, considerando el efecto del interés compuesto
-                </p>
-              </div>
+          {/* Sección de ¿Para qué sirve? */}
+          <div className='bg-white rounded-xl shadow-lg overflow-hidden mb-8'>
+            <div className='bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white'>
+              <h2 className='text-2xl font-semibold mb-2'>¿Para qué sirve?</h2>
+            </div>
 
-              <div className='p-6'>
-                {/* Fórmula */}
-                <div className='bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg mb-6'>
-                  <p className='text-sm font-medium text-indigo-800 mb-1'>
-                    Fórmula:
-                  </p>
-                  <code className='text-indigo-700 font-mono'>
-                    TEA = (1 + Tasa Periódica)^n - 1
-                  </code>
-                </div>
-
-                {/* Formulario */}
-                <form onSubmit={onSubmit} className='space-y-4'>
-                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                    <div>
-                      <label
-                        htmlFor='interes'
-                        className='block text-sm font-medium text-gray-700 mb-1'
-                      >
-                        Tasa de Interés Nominal Anual (decimal):
-                      </label>
-                      <input
-                        type='number'
-                        id='interes'
-                        name='interes'
-                        step='0.01'
-                        value={interes}
-                        onChange={(e) => setInteres(e.target.value)}
-                        className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent'
-                        placeholder='Ej: 0.12'
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor='periodos'
-                        className='block text-sm font-medium text-gray-700 mb-1'
-                      >
-                        Número de periodos:
-                      </label>
-                      <input
-                        type='number'
-                        id='periodos'
-                        name='periodos'
-                        value={periodos}
-                        onChange={(e) => setPeriodos(e.target.value)}
-                        className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent'
-                        placeholder='Ej: 12'
-                      />
-                    </div>
-                  </div>
-
-                  <button
-                    type='submit'
-                    className='w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                  >
-                    Calcular TEA
-                  </button>
-                </form>
-
-                {/* Resultado */}
-                {resultado !== null && (
-                  <div className='mt-6 p-4 bg-green-50 border border-green-200 rounded-lg'>
-                    <p className='text-green-800 font-medium'>Resultado:</p>
-                    <div className='text-2xl font-bold text-green-700 mt-1'>
-                      {resultado.toFixed(2)}%
-                    </div>
-                    <p className='text-sm text-green-600 mt-1'>
-                      Tasa Efectiva Anual calculada
-                    </p>
-                  </div>
-                )}
+            <div className='p-6'>
+              <div className='prose prose-indigo max-w-none'>
+                <ul className='list-disc list-inside text-gray-700 space-y-2'>
+                  <li>
+                    <span className='font-medium'>Asignación de recursos:</span>{' '}
+                    Dirigen el capital hacia usos más productivos
+                  </li>
+                  <li>
+                    <span className='font-medium'>Control de inflación:</span>{' '}
+                    Tasas altas reducen el gasto y la inflación
+                  </li>
+                  <li>
+                    <span className='font-medium'>Estimulación económica:</span>{' '}
+                    Tasas bajas fomentan inversión y consumo
+                  </li>
+                  <li>
+                    <span className='font-medium'>Valoración de activos:</span>{' '}
+                    Base para calcular valor presente de flujos futuros
+                  </li>
+                </ul>
               </div>
             </div>
-          ) : (
-            <div className='bg-white rounded-xl shadow-lg overflow-hidden'>
-              {/* Header TRG */}
-              <div className='bg-gradient-to-r from-purple-600 to-pink-600 p-6 text-white'>
-                <h2 className='text-2xl font-semibold mb-2'>
-                  Tasa de Rendimiento Geométrica (TRG)
-                </h2>
-                <p className='opacity-90'>
-                  Calcula la tasa de interés que se aplica a cada período de
-                  capitalización
-                </p>
-              </div>
+          </div>
 
-              <div className='p-6'>
-                {/* Fórmula */}
-                <div className='bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r-lg mb-6'>
-                  <p className='text-sm font-medium text-purple-800 mb-1'>
-                    Fórmula:
+          {/* Sección de Tipos de tasas de interés */}
+          <div className='bg-white rounded-xl shadow-lg overflow-hidden mb-8'>
+            <div className='bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white'>
+              <h2 className='text-2xl font-semibold mb-2'>
+                Tipos de tasas de interés
+              </h2>
+            </div>
+
+            <div className='p-6'>
+              <div className='prose prose-indigo max-w-none space-y-8'>
+                {/* Interés Simple */}
+                <div className='bg-indigo-50 p-4 rounded-lg'>
+                  <h3 className='text-xl font-semibold text-indigo-800 mb-2'>
+                    Interés Simple
+                  </h3>
+                  <p className='text-gray-700 mb-3'>
+                    El interés se calcula únicamente sobre el capital inicial y
+                    no se reinvierte.
                   </p>
-                  <code className='text-purple-700 font-mono'>
-                    Tasa Periódica = Tasa Nominal Anual / Número de períodos al
-                    año
-                  </code>
+                  <div className='bg-indigo-100 p-3 rounded-md mb-3'>
+                    <code className='text-indigo-700 font-mono'>
+                      I = C × t × r
+                    </code>
+                  </div>
+                  <p className='text-gray-600 text-sm mb-3'>
+                    Donde: I = Interés, C = Capital, t = Tiempo, r = Tasa de
+                    Interés
+                  </p>
+                  <Link
+                    to='/interesSimple'
+                    className='inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors duration-200'
+                  >
+                    Calcular interés simple
+                  </Link>
                 </div>
 
-                {/* Formulario */}
-                <form onSubmit={onSubmitRendimiento} className='space-y-4'>
-                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                    <div>
-                      <label
-                        htmlFor='montoFinal'
-                        className='block text-sm font-medium text-gray-700 mb-1'
-                      >
-                        Monto Final:
-                      </label>
-                      <input
-                        type='number'
-                        id='montoFinal'
-                        name='montoFinal'
-                        step='0.01'
-                        value={montoFinal}
-                        onChange={(e) => setMontoFinal(e.target.value)}
-                        className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent'
-                        placeholder='Ej: 1500.00'
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor='montoInicial'
-                        className='block text-sm font-medium text-gray-700 mb-1'
-                      >
-                        Monto Inicial:
-                      </label>
-                      <input
-                        type='number'
-                        id='montoInicial'
-                        name='montoInicial'
-                        step='0.01'
-                        value={montoInicial}
-                        onChange={(e) => setMontoInicial(e.target.value)}
-                        className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent'
-                        placeholder='Ej: 1000.00'
-                      />
-                    </div>
-
-                    <div className='md:col-span-2'>
-                      <label
-                        htmlFor='totalPeriodos'
-                        className='block text-sm font-medium text-gray-700 mb-1'
-                      >
-                        Número total de periodos:
-                      </label>
-                      <input
-                        type='number'
-                        id='totalPeriodos'
-                        name='totalPeriodos'
-                        value={totalPeriodos}
-                        onChange={(e) => setTotalPeriodos(e.target.value)}
-                        className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent'
-                        placeholder='Ej: 12'
-                      />
-                    </div>
+                {/* Interés Compuesto */}
+                <div className='bg-purple-50 p-4 rounded-lg'>
+                  <h3 className='text-xl font-semibold text-purple-800 mb-2'>
+                    Interés Compuesto
+                  </h3>
+                  <p className='text-gray-700 mb-3'>
+                    El interés se calcula sobre el capital inicial más los
+                    intereses acumulados de períodos anteriores.
+                  </p>
+                  <div className='bg-purple-100 p-3 rounded-md mb-3'>
+                    <code className='text-purple-700 font-mono'>
+                      I = C × (1 + r)^t
+                    </code>
                   </div>
-
-                  <button
-                    type='submit'
-                    className='w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2'
+                  <p className='text-gray-600 text-sm mb-3'>
+                    Donde: I = Interés, C = Capital, t = Tiempo, r = Tasa de
+                    Interés
+                  </p>
+                  <Link
+                    to='/interesCompuesto'
+                    className='inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors duration-200'
                   >
-                    Calcular TRG
-                  </button>
-                </form>
-
-                {/* Resultado */}
-                {resultado !== null && (
-                  <div className='mt-6 p-4 bg-green-50 border border-green-200 rounded-lg'>
-                    <p className='text-green-800 font-medium'>Resultado:</p>
-                    <div className='text-2xl font-bold text-green-700 mt-1'>
-                      {resultado.toFixed(2)}%
-                    </div>
-                    <p className='text-sm text-green-600 mt-1'>
-                      Tasa de Rendimiento Geométrica calculada
-                    </p>
-                  </div>
-                )}
+                    Calcular interés compuesto
+                  </Link>
+                </div>
               </div>
             </div>
-          )}
+          </div>
+
+          {/* Sección de Usos prácticos */}
+          <div className='bg-white rounded-xl shadow-lg overflow-hidden mb-8'>
+            <div className='bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white'>
+              <h2 className='text-2xl font-semibold mb-2'>Usos prácticos</h2>
+            </div>
+
+            <div className='p-6'>
+              <div className='prose prose-indigo max-w-none'>
+                <ul className='list-disc list-inside text-gray-700 space-y-2'>
+                  <li>Calcular pagos de préstamos hipotecarios</li>
+                  <li>Determinar rendimientos de inversiones</li>
+                  <li>Evaluar proyectos de inversión</li>
+                  <li>Comparar alternativas financieras</li>
+                  <li>Planificar el ahorro y la jubilación</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Sección de Importancia en diferentes sectores */}
+          <div className='bg-white rounded-xl shadow-lg overflow-hidden mb-8'>
+            <div className='bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white'>
+              <h2 className='text-2xl font-semibold mb-2'>
+                Importancia en diferentes sectores
+              </h2>
+            </div>
+
+            <div className='p-6'>
+              <div className='prose prose-indigo max-w-none space-y-6'>
+                <div>
+                  <h3 className='text-lg font-semibold text-gray-800 mb-2'>
+                    Sector bancario:
+                  </h3>
+                  <ul className='list-disc list-inside text-gray-700 space-y-1 ml-4'>
+                    <li>Determina el margen de intermediación</li>
+                    <li>Afecta la rentabilidad de los bancos</li>
+                    <li>Influye en la demanda de créditos</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className='text-lg font-semibold text-gray-800 mb-2'>
+                    Sector empresarial:
+                  </h3>
+                  <ul className='list-disc list-inside text-gray-700 space-y-1 ml-4'>
+                    <li>Costo de financiamiento para proyectos</li>
+                    <li>Evaluación de la viabilidad de inversiones</li>
+                    <li>Decisiones de estructura de capital</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className='text-lg font-semibold text-gray-800 mb-2'>
+                    Sector gubernamental:
+                  </h3>
+                  <ul className='list-disc list-inside text-gray-700 space-y-1 ml-4'>
+                    <li>Costo de la deuda pública</li>
+                    <li>Herramienta de política económica</li>
+                    <li>Control de variables macroeconómicas</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className='text-lg font-semibold text-gray-800 mb-2'>
+                    Personas naturales:
+                  </h3>
+                  <ul className='list-disc list-inside text-gray-700 space-y-1 ml-4'>
+                    <li>Costo de créditos de consumo</li>
+                    <li>Rendimiento de ahorros e inversiones</li>
+                    <li>Planificación financiera personal</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </PageWrapper>
