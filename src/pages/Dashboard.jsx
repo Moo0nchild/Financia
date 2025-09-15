@@ -150,7 +150,7 @@ export default function HomeLogged() {
                     Consulta y calcula la tasa de interés aplicada a tus operaciones.
                   </p>
                   <Link
-                    to='/tasa-interes'
+                    to='/interes'
                     className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
                   >
                     Ver Más
@@ -171,7 +171,7 @@ export default function HomeLogged() {
                     Descubre cuánto ganarías o pagarías en tus operaciones.
                   </p>
                   <Link
-                    to='/calculadora-simple'
+                    to='/interesSimple'
                     className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
                   >
                     Ver Más
@@ -192,7 +192,7 @@ export default function HomeLogged() {
                     Proyecta tus ahorros e inversiones con capitalización.
                   </p>
                   <Link
-                    to='/calculadora-compuesta'
+                    to='/interesCompuesto'
                     className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
                   >
                     Ver Más
@@ -213,7 +213,7 @@ export default function HomeLogged() {
                     Evalúa pagos periódicos y planifica tus finanzas.
                   </p>
                   <Link
-                    to='/calculadora-anualidades'
+                    to='/anualidades'
                     className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
                   >
                     Ver Más
