@@ -1,6 +1,7 @@
 // Login.jsx
 import { useState } from 'react'
 import { auth, db } from '../firebase/firabaseConfig.js'
+import homeBackground from '../assets/imagen.jpg'
 import {
   collection,
   query,
@@ -104,7 +105,10 @@ export default function Login() {
 
   return (
     <PageWrapper>
-      <div className='min-h-screen w-full flex justify-center items-center font-sans'>
+      <div
+        className='min-h-screen w-full flex justify-center items-center font-sans bg-cover bg-center'
+        style={{ backgroundImage: `url(${homeBackground})` }}
+      >
         {loading && (
           <div className='fixed inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center z-50 text-white text-xl'>
             <div className='w-12 h-12 border-6 border-gray-200 border-t-blue-500 rounded-full animate-spin mb-4'></div>
