@@ -70,7 +70,7 @@ export default function Login() {
       }
 
       // Redirigir a home
-      navigate('/home', {
+      navigate('/dashboard', {
         state: {
           user: {
             uid: user.uid,
