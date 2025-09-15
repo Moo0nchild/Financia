@@ -90,7 +90,7 @@ export function InteresCompuesto() {
     const C = parseFloat(capital)
     const MC = parseFloat(montoFinal)
     let i = parseFloat(tasa) / 100
-    let n = parseFloat(periodos)
+    let n = periodos
 
     const freq = frecuencias[unidad]
     if (!freq) {

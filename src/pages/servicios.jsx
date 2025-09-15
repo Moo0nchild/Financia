@@ -46,7 +46,7 @@ export default function ServiciosPage() {
         <div className='w-1/2'>
           <ul className='flex items-center justify-around'>
             <li className='list-none text-xl font-bold text-gray-600 hover:text-white hover:cursor-pointer transition-all duration-200 ease-in-out'>
-              <Link to='/home'>Inicio</Link>
+              <Link to='/'>Inicio</Link>
             </li>
             <li className='list-none text-xl font-bold text-gray-600 hover:text-white hover:cursor-pointer transition-all duration-200 ease-in-out'>
               <Link to='/servicios'>Servicios</Link>
