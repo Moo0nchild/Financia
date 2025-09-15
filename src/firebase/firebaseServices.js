@@ -3,9 +3,11 @@ import { auth, db } from './firabaseConfig.js'
 import { 
   createUserWithEmailAndPassword, 
   sendEmailVerification, 
-  sendPasswordResetEmail 
+  sendPasswordResetEmail, 
+  signOut
 } from 'firebase/auth'
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore'
+import { doc, setDoc, serverTimestamp, getDoc } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
 
 export const registerUser = async (userData) => {
   const { email, password, nombres, apellidos, documento, telefono, direccion, fechaNacimiento, tipoCuenta = 'Ahorros' } = userData
@@ -52,5 +54,38 @@ export const resetPassword = async (email) => {
   } catch (error) {
     console.error("Error en resetPassword:", error)
     alert('Error al enviar correo de restablecimiento: ' + error.message)
+  }
+}
+
+
+export async function obtenerDatosUsuario() {
+  const user = auth.currentUser
+  if (!user) return null // No hay usuario logueado
+
+  // Referencia al documento
+  const docRef = doc(db, 'users', user.uid)
+  const docSnap = await getDoc(docRef)
+
+  if (docSnap.exists()) {
+    const data = docSnap.data()
+    console.log('Nombre:', data.nombres)
+    console.log('Número de cuenta:', data.cuentaBancaria)
+    return data
+  } else {
+    console.log('No se encontró el usuario en la base de datos')
+    return null
+  }
+}
+
+const navigate = useNavigate()
+
+export const handleLogout = async () => {
+  try {
+    await signOut(auth)
+    console.log('Sesión cerrada correctamente')
+    // Redirigir al login u otra página
+    navigate('/')
+  } catch (error) {
+    console.error('Error al cerrar sesión:', error)
   }
 }
