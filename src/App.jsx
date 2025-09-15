@@ -12,6 +12,7 @@ import { InteresSimple } from './pages/InteresSimple'
 
 import { AnimatePresence } from 'framer-motion'
 import Layout from './components/Layout'
+import { AuthProvider } from './pages/AuthProvider'
 
 function AnimatedRoutes() {
   return (
@@ -60,5 +61,9 @@ function AnimatedRoutes() {
 }
 
 export default function App() {
-  return <AnimatedRoutes />
+  return (
+    <AuthProvider>
+      <AnimatedRoutes />
+    </AuthProvider>
+  )
 }
