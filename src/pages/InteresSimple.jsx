@@ -49,14 +49,14 @@ export function InteresSimple() {
       campos: [
         {
           id: 'capital',
-          label: 'Capital Inicial:',
+          label: 'Capital Inicial (Sin puntos ni comas):',
           value: capital,
           onChange: setCapital,
           unidad: '$',
         },
         {
           id: 'tasaInteres',
-          label: 'Tasa de Interés:',
+          label: 'Tasa de Interés (Entero):',
           value: tasaInteres,
           onChange: setTasaInteres,
           unidad: '%',
@@ -75,14 +75,14 @@ export function InteresSimple() {
       campos: [
         {
           id: 'capital',
-          label: 'Capital Inicial:',
+          label: 'Capital Inicial (Sin punto ni comas):',
           value: capital,
           onChange: setCapital,
           unidad: '$',
         },
         {
           id: 'tasaInteres',
-          label: 'Tasa de Interés:',
+          label: 'Tasa de Interés (Entero):',
           value: tasaInteres,
           onChange: setTasaInteres,
           unidad: '%',
@@ -101,14 +101,14 @@ export function InteresSimple() {
       campos: [
         {
           id: 'montoTotal',
-          label: 'Monto Final:',
+          label: 'Monto Final (Sin punto ni comas):',
           value: montoTotal,
           onChange: setMontoTotal,
           unidad: '$',
         },
         {
           id: 'tasaInteres',
-          label: 'Tasa de Interés:',
+          label: 'Tasa de Interés (Entero):',
           value: tasaInteres,
           onChange: setTasaInteres,
           unidad: '%',
@@ -128,14 +128,14 @@ export function InteresSimple() {
       campos: [
         {
           id: 'montoTotal',
-          label: 'Monto Final:',
+          label: 'Monto Final (Sin punto ni comas):',
           value: montoTotal,
           onChange: setMontoTotal,
           unidad: '$',
         },
         {
           id: 'capital',
-          label: 'Capital Inicial:',
+          label: 'Capital Inicial (Sin punto ni comas):',
           value: capital,
           onChange: setCapital,
           unidad: '$',
@@ -155,21 +155,21 @@ export function InteresSimple() {
       campos: [
         {
           id: 'montoTotal',
-          label: 'Monto Final:',
+          label: 'Monto Final (Sin punto ni comas):',
           value: montoTotal,
           onChange: setMontoTotal,
           unidad: '$',
         },
         {
           id: 'capital',
-          label: 'Capital Inicial:',
+          label: 'Capital Inicial (Sin punto ni comas):',
           value: capital,
           onChange: setCapital,
           unidad: '$',
         },
         {
           id: 'tasaInteres',
-          label: 'Tasa de Interés:',
+          label: 'Tasa de Interés (Entero):',
           value: tasaInteres,
           onChange: setTasaInteres,
           unidad: '%',
@@ -369,7 +369,7 @@ export function InteresSimple() {
                           value={campo.value}
                           onChange={(e) => campo.onChange(e.target.value)}
                           className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent pr-12'
-                          placeholder='0.00'
+                          placeholder='0'
                           required
                         />
                         <div className='absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none'>
