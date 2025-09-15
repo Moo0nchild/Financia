@@ -322,7 +322,7 @@ export function InteresSimple() {
               }`}
             >
               <option value='anios-simple'>
-                Tiempo en años (1, 2.25, etc.)
+                Tiempo en años 
               </option>
               <option value='anios-meses-dias'>
                 Tiempo en años, meses y días

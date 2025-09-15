@@ -1,50 +1,44 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import logo from '../assets/Logo-sin-fondo.png'
 
 export default function Navbar() {
-  return (
-    <nav className='bg-gradient-to-r from-blue-600 to-indigo-700 shadow-md'>
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='flex justify-between h-16 items-center'>
-          {/* Logo */}
-          <div className='flex-shrink-0 text-white text-xl font-bold tracking-wide'>
-            💰 Banco Virtual
-          </div>
+  const location = useLocation()
 
-          {/* Links */}
-          <div className='hidden md:flex space-x-6'>
-            <Link
-              to='/home'
-              className='text-white hover:text-yellow-300 transition-colors'
-            >
-              Inicio
-            </Link>
-            <Link
-              to='/interes'
-              className='text-white hover:text-yellow-300 transition-colors'
-            >
-              Tasa de Interes
-            </Link>
-            <Link
-              to='/interesSimple'
-              className='text-white hover:text-yellow-300 transition-colors'
-            >
-              Interés Simple
-            </Link>
-            <Link
-              to='/interesCompuesto'
-              className='text-white hover:text-yellow-300 transition-colors'
-            >
-              Interés Compuesto
-            </Link>
-            <Link
-              to='/anualidades'
-              className='text-white hover:text-yellow-300 transition-colors'
-            >
-              Anualidades
-            </Link>
-          </div>
-        </div>
+  return (
+    <header className='sticky top-0 left-0 right-0 z-50 flex justify-between items-center w-full h-20 px-6 bg-white shadow-sm border-b border-gray-100'>
+      {/* Logo */}
+      <div className='flex justify-center items-center'>
+        <img src={logo} alt='logo' className='w-48 h-14 object-contain' />
       </div>
-    </nav>
+
+      {/* Links */}
+      <nav className='flex-1 max-w-2xl'>
+        <ul className='flex items-center justify-end space-x-8'>
+          {[
+            { path: '/', label: 'Inicio' },
+            { path: '/interes', label: 'Tasa de Interés' },
+            { path: '/interesSimple', label: 'Interés Simple' },
+            { path: '/interesCompuesto', label: 'Interés Compuesto' },
+            { path: '/anualidades', label: 'Anualidades' },
+          ].map((item) => (
+            <li key={item.path} className='list-none'>
+              <Link
+                to={item.path}
+                className={`relative text-sm font-medium transition-colors duration-200 py-2 ${
+                  location.pathname === item.path
+                    ? 'text-blue-600 font-semibold'
+                    : 'text-gray-600 hover:text-blue-500'
+                }`}
+              >
+                {item.label}
+                {location.pathname === item.path && (
+                  <span className='absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full'></span>
+                )}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
   )
 }

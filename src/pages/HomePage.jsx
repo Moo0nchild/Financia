@@ -18,7 +18,7 @@ export default function Home() {
           <div className='w-1/2'>
             <ul className='flex items-center justify-around'>
               <li className='list-none text-xl font-bold text-gray-600 hover:text-white hover:cursor-pointer transition-all duration-200 ease-in-out'>
-                <Link to='/home'>Inicio</Link>
+                <Link to='/'>Inicio</Link>
               </li>
               <li className='list-none text-xl font-bold text-gray-600 hover:text-white hover:cursor-pointer transition-all duration-200 ease-in-out'>
                 <Link to='/servicios'>Servicios</Link>
@@ -27,7 +27,7 @@ export default function Home() {
                 <Link to='/quienesSomos'>Quienes Somos</Link>
               </li>
               <li className='list-none text-xl font-bold py-1.5 px-4 rounded-2xl text-white bg-[#002B50] hover:bg-blue-800 hover:cursor-pointer transition-all duration-200 ease-in-out'>
-                <Link to='/register' className='text-white'>
+                <Link to='/login' className='text-white'>
                   Hazte Cliente
                 </Link>
               </li>
