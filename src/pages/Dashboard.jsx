@@ -2,7 +2,6 @@ import PageWrapper from '../components/PageWrapper'
 import logo from '../assets/Logo-sin-fondo.png'
 import { Link } from 'react-router-dom'
 import { Footer } from '../components/Footer'
-import { auth } from '../firebase/firabaseConfig'
 
 // tus imágenes
 import calculadoraInteres from '../assets/interes-simple.jpeg'
@@ -13,10 +12,22 @@ import calculadoraAnualidad from '../assets/Foto1.jpg'
 import ConfiguracionImg from '../assets/Configuracion.png'
 import UsuarioImg from '../assets/User.png'
 import ClaveImg from '../assets/contrasena.png'
+import { useEffect, useState } from 'react'
+import { obtenerDatosUsuario } from '../firebase/firebaseServices'
 
 export default function HomeLogged() {
-  const user = auth.currentUser
+  const [userData, setUserData] = useState(null)
 
+  useEffect(() => {
+    async function fetchData() {
+      const data = await obtenerDatosUsuario()
+      setUserData(data)
+    }
+    fetchData()
+  }, [])
+
+  if (!userData) return <p>Cargando...</p>
+  
   return (
     <PageWrapper>
       <div>
@@ -36,9 +47,9 @@ export default function HomeLogged() {
               <li className='list-none text-xl font-bold text-gray-600 hover:text-white transition-all'>
                 <Link to='/quienesSomos'>Quienes Somos</Link>
               </li>
-              {user && (
+              {userData && (
                 <li className='list-none text-xl font-bold text-[#002B50]'>
-                  {user.displayName || user.email}
+                  {userData.nombres || 'Usuario'}
                 </li>
               )}
             </ul>
@@ -49,7 +60,7 @@ export default function HomeLogged() {
         <div className='w-full pt-[120px] pb-10 bg-gray-50 min-h-screen'>
           <div className='max-w-6xl mx-auto px-4'>
             <h1 className='text-3xl font-bold text-[#002B50] mb-10'>
-              Bienvenido, {user?.displayName || 'Cliente'}
+              Bienvenido, {userData?.nombres || 'Cliente'}
             </h1>
 
             {/* Resumen bancario */}
