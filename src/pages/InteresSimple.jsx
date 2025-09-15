@@ -9,8 +9,36 @@ export function InteresSimple() {
   const [tasaInteres, setTasaInteres] = useState('')
   const [tiempo, setTiempo] = useState('')
   const [montoTotal, setMontoTotal] = useState('')
+  const [modoTiempo, setModoTiempo] = useState('anios-simple') // 'anios-simple' o 'anios-meses-dias'
+  const [tiempoAnios, setTiempoAnios] = useState('')
+  const [tiempoMeses, setTiempoMeses] = useState('')
+  const [tiempoDias, setTiempoDias] = useState('')
 
-  // Configuración de cada opción para evitar repetir código
+  // Función para formatear números en formato de pesos colombianos
+  const formatoPesos = (valor) => {
+    return new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(valor)
+  }
+
+  // Función para obtener el tiempo total en años según el modo seleccionado
+  const getTiempoEnAnios = () => {
+    if (modoTiempo === 'anios-simple') {
+      return parseFloat(tiempo) || 0
+    } else {
+      const anios = parseFloat(tiempoAnios) || 0
+      const meses = parseFloat(tiempoMeses) || 0
+      const dias = parseFloat(tiempoDias) || 0
+
+      // Convertir todo a años: meses/12 + dias/360
+      return anios + meses / 12 + dias / 360
+    }
+  }
+
+  // Configuración de cada opción
   const opcionesConfig = {
     general: {
       titulo: 'Fórmula General del Interés Simple',
@@ -24,17 +52,19 @@ export function InteresSimple() {
           label: 'Capital Inicial:',
           value: capital,
           onChange: setCapital,
+          unidad: '$',
         },
         {
           id: 'tasaInteres',
-          label: 'Tasa de Interés (decimal):',
+          label: 'Tasa de Interés:',
           value: tasaInteres,
           onChange: setTasaInteres,
+          unidad: '%',
         },
-        { id: 'tiempo', label: 'Tiempo:', value: tiempo, onChange: setTiempo },
       ],
-      textoResultado: 'El interés simple calculado es:',
-      unidadResultado: '%',
+      textoResultado: 'El interés simple calculado es de:',
+      unidadResultado: '$',
+      esMonetario: true,
     },
     valorFuturo: {
       titulo: 'Valor Futuro (Monto)',
@@ -48,17 +78,19 @@ export function InteresSimple() {
           label: 'Capital Inicial:',
           value: capital,
           onChange: setCapital,
+          unidad: '$',
         },
         {
           id: 'tasaInteres',
-          label: 'Tasa de Interés (decimal):',
+          label: 'Tasa de Interés:',
           value: tasaInteres,
           onChange: setTasaInteres,
+          unidad: '%',
         },
-        { id: 'tiempo', label: 'Tiempo:', value: tiempo, onChange: setTiempo },
       ],
       textoResultado: 'El valor futuro calculado es:',
-      unidadResultado: '',
+      unidadResultado: '$',
+      esMonetario: true,
     },
     capital: {
       titulo: 'Capital (Según Monto)',
@@ -72,17 +104,19 @@ export function InteresSimple() {
           label: 'Monto Final:',
           value: montoTotal,
           onChange: setMontoTotal,
+          unidad: '$',
         },
         {
           id: 'tasaInteres',
-          label: 'Tasa de Interés (decimal):',
+          label: 'Tasa de Interés:',
           value: tasaInteres,
           onChange: setTasaInteres,
+          unidad: '%',
         },
-        { id: 'tiempo', label: 'Tiempo:', value: tiempo, onChange: setTiempo },
       ],
       textoResultado: 'El capital calculado es:',
-      unidadResultado: '',
+      unidadResultado: '$',
+      esMonetario: true,
     },
     tasa: {
       titulo: 'Tasa de Interés (Según Monto)',
@@ -97,17 +131,19 @@ export function InteresSimple() {
           label: 'Monto Final:',
           value: montoTotal,
           onChange: setMontoTotal,
+          unidad: '$',
         },
         {
           id: 'capital',
           label: 'Capital Inicial:',
           value: capital,
           onChange: setCapital,
+          unidad: '$',
         },
-        { id: 'tiempo', label: 'Tiempo:', value: tiempo, onChange: setTiempo },
       ],
       textoResultado: 'La tasa de interés calculada es:',
       unidadResultado: '%',
+      esMonetario: false,
     },
     tiempo: {
       titulo: 'Tiempo (Según Monto)',
@@ -122,72 +158,84 @@ export function InteresSimple() {
           label: 'Monto Final:',
           value: montoTotal,
           onChange: setMontoTotal,
+          unidad: '$',
         },
         {
           id: 'capital',
           label: 'Capital Inicial:',
           value: capital,
           onChange: setCapital,
+          unidad: '$',
         },
         {
           id: 'tasaInteres',
-          label: 'Tasa de Interés (decimal):',
+          label: 'Tasa de Interés:',
           value: tasaInteres,
           onChange: setTasaInteres,
+          unidad: '%',
         },
       ],
       textoResultado: 'El tiempo calculado es:',
       unidadResultado: ' años',
+      esMonetario: false,
     },
   }
 
-  // Funciones de cálculo
+  // Funciones de cálculo actualizadas
   function onSubmitGeneral(e) {
     e.preventDefault()
+    const tasaDecimal = parseFloat(tasaInteres) / 100
+    const tiempoEnAnios = getTiempoEnAnios()
     const resultadoCalculo = calcularInteresSimple.calcularInteresSimple(
       parseFloat(capital),
-      parseFloat(tasaInteres),
-      parseFloat(tiempo)
+      tasaDecimal,
+      tiempoEnAnios
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitValorFuturo(e) {
     e.preventDefault()
+    const tasaDecimal = parseFloat(tasaInteres) / 100
+    const tiempoEnAnios = getTiempoEnAnios()
     const resultadoCalculo = calcularInteresSimple.calcularValorFuturo(
       parseFloat(capital),
-      parseFloat(tasaInteres),
-      parseFloat(tiempo)
+      tasaDecimal,
+      tiempoEnAnios
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitCapital(e) {
     e.preventDefault()
+    const tasaDecimal = parseFloat(tasaInteres) / 100
+    const tiempoEnAnios = getTiempoEnAnios()
     const resultadoCalculo = calcularInteresSimple.calcularCapital(
       parseFloat(montoTotal),
-      parseFloat(tasaInteres),
-      parseFloat(tiempo)
+      tasaDecimal,
+      tiempoEnAnios
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitTasa(e) {
     e.preventDefault()
+    const tiempoEnAnios = getTiempoEnAnios()
     const resultadoCalculo = calcularInteresSimple.calcularTasa(
       parseFloat(capital),
       parseFloat(montoTotal),
-      parseFloat(tiempo)
+      tiempoEnAnios
     )
-    setResultado(resultadoCalculo)
+    setResultado(resultadoCalculo * 100) // Convertir a porcentaje
   }
 
   function onSubmitTiempo(e) {
     e.preventDefault()
+    const tasaDecimal = parseFloat(tasaInteres) / 100
     const resultadoCalculo = calcularInteresSimple.calcularTiempo(
       parseFloat(capital),
       parseFloat(montoTotal),
-      parseFloat(tasaInteres)
+      tasaDecimal
     )
     setResultado(resultadoCalculo)
   }
@@ -202,9 +250,25 @@ export function InteresSimple() {
     setTasaInteres('')
     setTiempo('')
     setMontoTotal('')
+    setTiempoAnios('')
+    setTiempoMeses('')
+    setTiempoDias('')
+  }
+
+  function handleModoTiempoChange(e) {
+    setModoTiempo(e.target.value)
+    setResultado(null)
+    // Limpiar los campos de tiempo
+    setTiempo('')
+    setTiempoAnios('')
+    setTiempoMeses('')
+    setTiempoDias('')
   }
 
   const config = opcionesConfig[opcion]
+
+  // Determinar si debemos deshabilitar los campos de tiempo
+  const deshabilitarTiempo = opcion === 'tiempo'
 
   return (
     <PageWrapper>
@@ -232,13 +296,37 @@ export function InteresSimple() {
               id='mode-select'
               onChange={handleSelectChange}
               value={opcion}
-              className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-gray-50'
+              className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-gray-50 mb-4'
             >
               <option value='general'>Fórmula general</option>
               <option value='valorFuturo'>Valor futuro</option>
               <option value='capital'>Capital (según monto)</option>
               <option value='tasa'>Tasa (según monto)</option>
               <option value='tiempo'>Tiempo (según monto)</option>
+            </select>
+
+            {/* Selector de unidad de tiempo - deshabilitado cuando se selecciona tiempo */}
+            <label
+              htmlFor='time-mode-select'
+              className='block text-sm font-medium text-gray-700 mb-2'
+            >
+              Unidad de tiempo:
+            </label>
+            <select
+              id='time-mode-select'
+              onChange={handleModoTiempoChange}
+              value={modoTiempo}
+              disabled={deshabilitarTiempo}
+              className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${
+                deshabilitarTiempo ? 'bg-gray-100 text-gray-500' : 'bg-gray-50'
+              }`}
+            >
+              <option value='anios-simple'>
+                Tiempo en años (1, 2.25, etc.)
+              </option>
+              <option value='anios-meses-dias'>
+                Tiempo en años, meses y días
+              </option>
             </select>
           </div>
 
@@ -264,35 +352,170 @@ export function InteresSimple() {
               {/* Formulario */}
               <form onSubmit={config.onSubmit} className='space-y-4'>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                  {config.campos.map((campo, index) => (
-                    <div
-                      key={campo.id}
-                      className={
-                        config.campos.length > 2 &&
-                        index === config.campos.length - 1
-                          ? 'md:col-span-2'
-                          : ''
-                      }
-                    >
+                  {config.campos.map((campo) => (
+                    <div key={campo.id}>
                       <label
                         htmlFor={campo.id}
                         className='block text-sm font-medium text-gray-700 mb-1'
                       >
                         {campo.label}
                       </label>
-                      <input
-                        type='number'
-                        id={campo.id}
-                        name={campo.id}
-                        step='0.01'
-                        value={campo.value}
-                        onChange={(e) => campo.onChange(e.target.value)}
-                        className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent'
-                        placeholder='0.00'
-                        required
-                      />
+                      <div className='relative'>
+                        <input
+                          type='number'
+                          id={campo.id}
+                          name={campo.id}
+                          step='0.01'
+                          value={campo.value}
+                          onChange={(e) => campo.onChange(e.target.value)}
+                          className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent pr-12'
+                          placeholder='0.00'
+                          required
+                        />
+                        <div className='absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none'>
+                          <span className='text-gray-500'>{campo.unidad}</span>
+                        </div>
+                      </div>
                     </div>
                   ))}
+
+                  {/* Campos de tiempo según el modo seleccionado - deshabilitados cuando se selecciona tiempo */}
+                  {modoTiempo === 'anios-simple' ? (
+                    <div>
+                      <label
+                        htmlFor='tiempo'
+                        className='block text-sm font-medium text-gray-700 mb-1'
+                      >
+                        Tiempo:
+                      </label>
+                      <div className='relative'>
+                        <input
+                          type='number'
+                          id='tiempo'
+                          name='tiempo'
+                          step='0.01'
+                          value={tiempo}
+                          onChange={(e) => setTiempo(e.target.value)}
+                          className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent pr-12 ${
+                            deshabilitarTiempo
+                              ? 'bg-gray-100 text-gray-500'
+                              : ''
+                          }`}
+                          placeholder='0.00'
+                          required
+                          disabled={deshabilitarTiempo}
+                        />
+                        <div className='absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none'>
+                          <span
+                            className={`${
+                              deshabilitarTiempo
+                                ? 'text-gray-400'
+                                : 'text-gray-500'
+                            }`}
+                          >
+                            años
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className='md:col-span-2'>
+                      <label className='block text-sm font-medium text-gray-700 mb-1'>
+                        Tiempo:
+                      </label>
+                      <div className='grid grid-cols-3 gap-4'>
+                        <div className='relative'>
+                          <input
+                            type='number'
+                            id='tiempo-anios'
+                            name='tiempo-anios'
+                            step='1'
+                            min='0'
+                            value={tiempoAnios}
+                            onChange={(e) => setTiempoAnios(e.target.value)}
+                            className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent pr-12 ${
+                              deshabilitarTiempo
+                                ? 'bg-gray-100 text-gray-500'
+                                : ''
+                            }`}
+                            placeholder='0'
+                            disabled={deshabilitarTiempo}
+                          />
+                          <div className='absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none'>
+                            <span
+                              className={`${
+                                deshabilitarTiempo
+                                  ? 'text-gray-400'
+                                  : 'text-gray-500'
+                              }`}
+                            >
+                              años
+                            </span>
+                          </div>
+                        </div>
+                        <div className='relative'>
+                          <input
+                            type='number'
+                            id='tiempo-meses'
+                            name='tiempo-meses'
+                            step='1'
+                            min='0'
+                            max='11'
+                            value={tiempoMeses}
+                            onChange={(e) => setTiempoMeses(e.target.value)}
+                            className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent pr-12 ${
+                              deshabilitarTiempo
+                                ? 'bg-gray-100 text-gray-500'
+                                : ''
+                            }`}
+                            placeholder='0'
+                            disabled={deshabilitarTiempo}
+                          />
+                          <div className='absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none'>
+                            <span
+                              className={`${
+                                deshabilitarTiempo
+                                  ? 'text-gray-400'
+                                  : 'text-gray-500'
+                              }`}
+                            >
+                              meses
+                            </span>
+                          </div>
+                        </div>
+                        <div className='relative'>
+                          <input
+                            type='number'
+                            id='tiempo-dias'
+                            name='tiempo-dias'
+                            step='1'
+                            min='0'
+                            max='30'
+                            value={tiempoDias}
+                            onChange={(e) => setTiempoDias(e.target.value)}
+                            className={`w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent pr-12 ${
+                              deshabilitarTiempo
+                                ? 'bg-gray-100 text-gray-500'
+                                : ''
+                            }`}
+                            placeholder='0'
+                            disabled={deshabilitarTiempo}
+                          />
+                          <div className='absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none'>
+                            <span
+                              className={`${
+                                deshabilitarTiempo
+                                  ? 'text-gray-400'
+                                  : 'text-gray-500'
+                              }`}
+                            >
+                              días
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <button
@@ -310,8 +533,9 @@ export function InteresSimple() {
                     {config.textoResultado}
                   </p>
                   <div className='text-2xl font-bold text-green-700 mt-1'>
-                    {resultado.toFixed(2)}
-                    {config.unidadResultado}
+                    {config.esMonetario
+                      ? formatoPesos(resultado)
+                      : `${resultado.toFixed(2)}${config.unidadResultado}`}
                   </div>
                 </div>
               )}

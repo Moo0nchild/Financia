@@ -17,28 +17,23 @@ export const calcularInteres = {
 // Interés Simple
 // -----------------------------------
 export const calcularInteresSimple = {
-  calcularInteresSimple(capitalInicial, tasa, periodos) {
-    // I = C * i * n
-    return capitalInicial * tasa * periodos
+  calcularInteresSimple(capitalInicial, tasa, tiempoEnAnios) {
+    return capitalInicial * tasa * tiempoEnAnios
   },
 
-  calcularValorFuturo(capitalInicial, tasa, periodos) {
-    // VF = C * (1 + i*n)
-    return capitalInicial * (1 + tasa * periodos)
+  calcularValorFuturo(capitalInicial, tasa, tiempoEnAnios) {
+    return capitalInicial * (1 + tasa * tiempoEnAnios)
   },
 
-  calcularCapital(montoFinal, tasa, periodos) {
-    // C = VF / (1 + i*n)
-    return montoFinal / (1 + tasa * periodos)
+  calcularCapital(montoFinal, tasa, tiempoEnAnios) {
+    return montoFinal / (1 + tasa * tiempoEnAnios)
   },
 
-  calcularTasa(capitalInicial, montoFinal, periodos) {
-    // i = (M - C) / (C * n)
-    return (montoFinal / capitalInicial - 1) / periodos
+  calcularTasa(capitalInicial, montoFinal, tiempoEnAnios) {
+    return (montoFinal / capitalInicial - 1) / tiempoEnAnios
   },
 
   calcularTiempo(capitalInicial, montoFinal, tasa) {
-    // n = (M / C - 1) / i
     return (montoFinal / capitalInicial - 1) / tasa
   },
 }
