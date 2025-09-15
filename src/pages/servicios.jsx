@@ -2,7 +2,6 @@ import React from 'react'
 import { ArrowRight } from 'lucide-react'
 import logo from '../assets/Logo-sin-fondo.png'
 import { Link } from 'react-router-dom'
-
 export default function ServiciosPage() {
   const servicios = [
     {
@@ -39,27 +38,23 @@ export default function ServiciosPage() {
 
   return (
     <main className='min-h-screen bg-slate-50 text-slate-900'>
-      {/* Header convertido a Tailwind */}
-      <header className='flex justify-between items-center flex-row w-full h-[90px] px-4 bg-white shadow-md'>
-        <div>
-          <img
-            src={logo}
-            alt='logo'
-            className='w-[250px] h-[70px] flex justify-center items-center ml-2.5'
-          />
+      {/* Header */}
+      <header className='fixed top-0 left-0 right-0 z-50 flex justify-between items-center w-full h-[90px] px-4 bg-transparent backdrop-blur-sm'>
+        <div className='flex justify-center items-center'>
+          <img src={logo} alt='logo' className='w-[250px] h-[70px] ml-2.5' />
         </div>
         <div className='w-1/2'>
-          <ul className='flex items-center justify-around flex-row'>
-            <li className='list-none text-xl font-bold text-gray-600 hover:text-blue-800 transition-all ease-in-out duration-200'>
-              <Link to='/'>Inicio</Link>
+          <ul className='flex items-center justify-around'>
+            <li className='list-none text-xl font-bold text-gray-600 hover:text-white hover:cursor-pointer transition-all duration-200 ease-in-out'>
+              <Link to='/home'>Inicio</Link>
             </li>
-            <li className='list-none text-xl font-bold text-gray-600 hover:text-blue-800 transition-all ease-in-out duration-200'>
+            <li className='list-none text-xl font-bold text-gray-600 hover:text-white hover:cursor-pointer transition-all duration-200 ease-in-out'>
               <Link to='/servicios'>Servicios</Link>
             </li>
-            <li className='list-none text-xl font-bold text-gray-600 hover:text-blue-800 transition-all ease-in-out duration-200'>
+            <li className='list-none text-xl font-bold text-gray-600 hover:text-white hover:cursor-pointer transition-all duration-200 ease-in-out'>
               <Link to='/quienesSomos'>Quienes Somos</Link>
             </li>
-            <li className='list-none text-xl font-bold py-1 px-4 rounded-full text-white bg-[#002B50] hover:bg-blue-900 transition-all ease-in-out duration-200'>
+            <li className='list-none text-xl font-bold py-1.5 px-4 rounded-2xl text-white bg-[#002B50] hover:bg-blue-800 hover:cursor-pointer transition-all duration-200 ease-in-out'>
               <Link to='/register' className='text-white'>
                 Hazte Cliente
               </Link>
@@ -68,30 +63,41 @@ export default function ServiciosPage() {
         </div>
       </header>
 
-      {/* Sección principal de servicios */}
-      <div className='py-12 px-5 text-center bg-gray-100 min-h-screen'>
-        <h1 className='text-4xl mb-10 text-[#002b5b]'>Nuestros Servicios</h1>
-
-        <div className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-          {servicios.map((servicio, index) => (
+      {/* Grid de servicios */}
+      <section className='max-w-7xl mx-auto px-6 py-6 mt-[90px]'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+          {servicios.map((s) => (
             <div
-              key={index}
-              className='bg-white mx-auto p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow w-full max-w-md'
+              key={s.title}
+              className='bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow p-6 flex flex-col justify-between'
             >
-              <h2 className='text-xl font-semibold mb-3 text-[#1c6e4c]'>
-                {servicio.title}
-              </h2>
-              <p className='text-gray-600 mb-5'>{servicio.desc}</p>
-              <button
-                className='px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300'
-                onClick={() => alert(`${servicio.cta} - Acción demo`)}
-              >
-                {servicio.cta}
-              </button>
+              <div className='flex items-start justify-between'>
+                <div>
+                  <h3 className='text-xl font-semibold'>{s.title}</h3>
+                  <p className='mt-2 text-sm text-slate-600'>{s.desc}</p>
+                </div>
+                <div className='ml-4 hidden md:block'>
+                  <div className='h-12 w-12 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 font-bold'>
+                    {s.title.charAt(0)}
+                  </div>
+                </div>
+              </div>
+
+              <div className='mt-6 flex items-center justify-between'>
+                <button
+                  className='flex items-center gap-2 text-sm px-4 py-2 rounded-lg border border-slate-200 bg-white text-slate-800 hover:bg-slate-50'
+                  onClick={() => alert(`${s.cta} - Acción demo`)}
+                >
+                  {s.cta} <ArrowRight size={14} />
+                </button>
+                <a className='text-xs text-slate-500 cursor-pointer hover:underline'>
+                  Más información
+                </a>
+              </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* Sección destacada: Simuladores */}
       <section className='bg-gradient-to-r from-sky-600 to-indigo-600 text-white py-12 mt-8'>
@@ -128,15 +134,9 @@ export default function ServiciosPage() {
             reservados
           </p>
           <nav className='flex gap-4 text-sm text-slate-600'>
-            <a href='#' className='hover:underline'>
-              Privacidad
-            </a>
-            <a href='#' className='hover:underline'>
-              Términos
-            </a>
-            <a href='#' className='hover:underline'>
-              Ayuda
-            </a>
+            <a href='#'>Privacidad</a>
+            <a href='#'>Términos</a>
+            <a href='#'>Ayuda</a>
           </nav>
         </div>
       </footer>
