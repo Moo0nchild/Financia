@@ -26,6 +26,21 @@ export const calcularInteresSimple = {
     // VF = C * (1 + i*n)
     return capitalInicial * (1 + tasa * periodos)
   },
+
+  calcularCapital(montoFinal, tasa, periodos) {
+    // C = VF / (1 + i*n)
+    return montoFinal / (1 + tasa * periodos)
+  },
+
+  calcularTasa(capitalInicial, montoFinal, periodos) {
+    // i = (M - C) / (C * n)
+    return (montoFinal / capitalInicial - 1) / periodos
+  },
+
+  calcularTiempo(capitalInicial, montoFinal, tasa) {
+    // n = (M / C - 1) / i
+    return (montoFinal / capitalInicial - 1) / tasa
+  },
 }
 
 // -----------------------------------
@@ -44,7 +59,10 @@ export const calcularInteresCompuesto = {
 
   // Interés Compuesto (ganancia)
   calcularInteresCompuesto(capitalInicial, tasa, periodos) {
-    return this.calcularMontoCompuesto(capitalInicial, tasa, periodos) - capitalInicial
+    return (
+      this.calcularMontoCompuesto(capitalInicial, tasa, periodos) -
+      capitalInicial
+    )
   },
 
   // Tiempo (n)

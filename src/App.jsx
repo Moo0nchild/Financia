@@ -10,23 +10,55 @@ import Home from './pages/HomePage'
 import ForgotPassword from './pages/ForgotPassword'
 import { InteresSimple } from './pages/InteresSimple'
 
-export default function App() {
+import { AnimatePresence } from 'framer-motion'
+import Layout from './components/Layout'
+
+function AnimatedRoutes() {
   return (
-    <Routes>
-      <Route path='/' element={<Navigate to='/login' />} />
-      <Route path='/home' element={<Home />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/register' element={<Register />} />
-      <Route path='/forgotPassword' element={<ForgotPassword />} />
+    <AnimatePresence mode='wait'>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/forgotPassword' element={<ForgotPassword />} />
 
-      <Route path='/interes' element={<Interes />} />
-      <Route path='/interesSimple' element={<InteresSimple />} />
-      <Route path='/interesCompuesto' element={<InteresCompuesto />} />
-      <Route path='/anualidades' element={<Anualidades />} />
-
-      <Route path='/home' element={<Home />} />
-    </Routes>
+        <Route
+          path='/interes'
+          element={
+            <Layout>
+              <Interes />
+            </Layout>
+          }
+        />
+        <Route
+          path='/interesSimple'
+          element={
+            <Layout>
+              <InteresSimple />
+            </Layout>
+          }
+        />
+        <Route
+          path='/interesCompuesto'
+          element={
+            <Layout>
+              <InteresCompuesto />
+            </Layout>
+          }
+        />
+        <Route
+          path='/anualidades'
+          element={
+            <Layout>
+              <Anualidades />
+            </Layout>
+          }
+        />
+      </Routes>
+    </AnimatePresence>
   )
 }
-//? Se supone que / es la ruta principal, debemos saber si dejamos el login como entrada principal
-//? o cambiamos y dejamos el home como entrada principal
+
+export default function App() {
+  return <AnimatedRoutes />
+}

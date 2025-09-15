@@ -1,66 +1,94 @@
-import { Link, useLocation } from "react-router-dom"
-import "../styles/HomePage.css"
+// import { Link, useLocation } from 'react-router-dom'
+// import '../styles/HomePage.css'
+import '../styles/estilos.css'
+import PageWrapper from '../components/PageWrapper'
+import ImagenPrincipal from '../assets/home.jpg'
+import logo from '../assets/Logo-sin-fondo.png'
+import calculadoraSimple from '../assets/interes-simple.jpeg'
+import calculadoraCompuesta from '../assets/compuesto.jpg'
+import { Link } from 'react-router-dom'
 
 export default function Home() {
-  const location = useLocation()
-  const user = location.state?.user
+  // const location = useLocation()
+  // const user = location.state?.user
 
   // Datos del usuario (ejemplo con foto por defecto si no hay en "user")
-  const userData = {
-    name: user?.name || "Usuario",
-    photo:
-      user?.photo ||
-      "https://s3.amazonaws.com/s3.timetoast.com/public/uploads/photo/17735246/image/medium-f6f216736722a631686ffe5c95a5d70e.jpg",
-  }
+  // const userData = {
+  //   name: user?.name || 'Usuario',
+  //   photo:
+  //     user?.photo ||
+  //     'https://s3.amazonaws.com/s3.timetoast.com/public/uploads/photo/17735246/image/medium-f6f216736722a631686ffe5c95a5d70e.jpg',
+  // }
 
   return (
-    <div className="home-container">
-      {/* Barra de navegación */}
-      <nav className="navbar">
-        <div className="nav-left">
-          <h2 className="logo">Financia</h2>
-
-          <ul className="nav-links">
-            <li><Link to="/home">Inicio</Link></li>
-            <li><Link to="/profile">Perfil</Link></li>
-            <li><Link to="/settings">Configuración</Link></li>
-            <li><Link to="/about">Acerca de</Link></li>
+    <div>
+      <header className='header-container'>
+        <div className='header-principal'>
+          <img src={logo} alt='logo' className='logo-principal' />
+        </div>
+        <div className='list-container'>
+          <ul className='header-list'>
+            <li>
+              <Link to='/home'>Inicio</Link>
+            </li>
+            <li>
+              <Link to='/cuenta'>Cuenta</Link>
+            </li>
+            <li>
+              <Link to='/servicios'>Servicios</Link>
+            </li>
+            <li>
+              <Link to='/quienesSomos'>Quienes Somos</Link>
+            </li>
+            <li className='cliente-list'>
+              <Link to='/register'>Hazte Cliente</Link>
+            </li>
           </ul>
         </div>
-
-        <div className="nav-right">
-          <img
-            src={userData.photo}
-            alt="Foto de perfil"
-            className="profile-pic"
-          />
-          <span className="username">{userData.name}</span>
+      </header>
+      <div className='contain-principal'>
+        <div className='texto-principal'>
+          <p className='texto-principal-p'>Tu Banco, sin Complicaciones</p>
+          <p className='texto-secundario-p'>Rapido, Seguro y Confiable.</p>
+          <Link to='/login' className='boton-principal'>
+            Conocer Mas
+          </Link>
         </div>
-      </nav>
+      </div>
 
-      {/* Contenido principal */}
-      <div className="main-content">
-        <h1>Bienvenido, {userData.name} 👋</h1>
+      <div className='container-calculadoras'>
+        <div className='interes-simple'>
+          <div className='interes-simple-mensaje'>
+            <h1>Calcula tu Interes Simple Facilmente</h1>
+            <p>Descubre cuanto ganarias o pagarias en tus operaciones</p>
+            <Link to='/login' className='boton-simple'>
+              Ver Mas
+            </Link>
+          </div>
+          <div className='interes-simple-imagen'>
+            <img
+              src={calculadoraSimple}
+              alt='interes'
+              className='imagen-interes'
+            />
+          </div>
+        </div>
 
-        <p>Este es tu panel principal.</p>
-        <p>Selecciona un simulador para empezar:</p>
-
-        {/* Sección de simuladores */}
-        <div className="simuladores-grid">
-          <Link to="/interes" className="simulador-card">
-            <h3>📊 Interés Simple</h3>
-            <p>Calcula el interés simple de tus inversiones.</p>
-          </Link>
-
-          <Link to="/interescompuesto" className="simulador-card">
-            <h3>💹 Interés Compuesto</h3>
-            <p>Simula el crecimiento con interés compuesto.</p>
-          </Link>
-
-          <Link to="/anualidades" className="simulador-card">
-            <h3>📅 Anualidades</h3>
-            <p>Proyecta pagos periódicos y acumulación de capital.</p>
-          </Link>
+        <div className='interes-compuesto'>
+          <div className='interes-compuesto-imagen'>
+            <img
+              src={calculadoraCompuesta}
+              alt='interes'
+              className='imagen-interes'
+            />
+          </div>
+          <div className='interes-compuesto-mensaje'>
+            <h1>Calcula tu Interes Compuesto Facilmente</h1>
+            <p>Descubre cuanto ganarias o pagarias en tus operaciones</p>
+            <Link to='/login' className='boton-compuesto'>
+              Ver Mas
+            </Link>
+          </div>
         </div>
       </div>
     </div>
