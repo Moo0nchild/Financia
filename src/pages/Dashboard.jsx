@@ -58,7 +58,9 @@ export default function HomeLogged() {
                 <h2 className='text-xl font-semibold text-[#002B50]'>
                   Mi Saldo
                 </h2>
-                <p className='text-3xl font-bold text-green-600 mt-2'>$2,450.00</p>
+                <p className='text-3xl font-bold text-green-600 mt-2'>
+                  $2,450.00
+                </p>
               </div>
               <div className='bg-white shadow-md rounded-2xl p-6 flex flex-col items-center justify-center'>
                 <h2 className='text-xl font-semibold text-[#002B50]'>
@@ -94,7 +96,9 @@ export default function HomeLogged() {
                     alt='Editar Perfil'
                     className='w-16 h-16 mb-3 object-contain'
                   />
-                  <h3 className='text-lg font-semibold text-[#002B50] mb-1'>Editar Perfil</h3>
+                  <h3 className='text-lg font-semibold text-[#002B50] mb-1'>
+                    Editar Perfil
+                  </h3>
                   <p className='text-gray-600 text-center text-sm'>
                     Actualiza tus datos personales y foto de perfil.
                   </p>
@@ -110,7 +114,9 @@ export default function HomeLogged() {
                     alt='Cambiar Contraseña'
                     className='w-16 h-16 mb-3 object-contain'
                   />
-                  <h3 className='text-lg font-semibold text-[#002B50] mb-1'>Cambiar Contraseña</h3>
+                  <h3 className='text-lg font-semibold text-[#002B50] mb-1'>
+                    Cambiar Contraseña
+                  </h3>
                   <p className='text-gray-600 text-center text-sm'>
                     Actualiza tu contraseña de manera segura y rápida.
                   </p>
@@ -126,7 +132,9 @@ export default function HomeLogged() {
                     alt='Configuración'
                     className='w-16 h-16 mb-3 object-contain'
                   />
-                  <h3 className='text-lg font-semibold text-[#002B50] mb-1'>Configuración</h3>
+                  <h3 className='text-lg font-semibold text-[#002B50] mb-1'>
+                    Configuración
+                  </h3>
                   <p className='text-gray-600 text-center text-sm'>
                     Personaliza tus preferencias y ajustes de la cuenta.
                   </p>
@@ -134,92 +142,93 @@ export default function HomeLogged() {
               </div>
             </div>
 
-              {/* Calculadoras / Herramientas financieras */}
-              <div className='mt-20 max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'>
-                {/* Tasa de Interés */}
-                <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
-                  <img
-                    src={calculadoraInteres} // Cambia a imagen representativa
-                    alt='tasa de interés'
-                    className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
-                  />
-                  <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
-                    Tasa de Interés
-                  </h2>
-                  <p className='text-gray-600 text-center mb-4'>
-                    Consulta y calcula la tasa de interés aplicada a tus operaciones.
-                  </p>
-                  <Link
-                    to='/interes'
-                    className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
-                  >
-                    Ver Más
-                  </Link>
-                </div>
-
-                {/* Interés Simple */}
-                <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
-                  <img
-                    src={calculadoraSimple}
-                    alt='interes simple'
-                    className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
-                  />
-                  <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
-                    Interés Simple
-                  </h2>
-                  <p className='text-gray-600 text-center mb-4'>
-                    Descubre cuánto ganarías o pagarías en tus operaciones.
-                  </p>
-                  <Link
-                    to='/interesSimple'
-                    className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
-                  >
-                    Ver Más
-                  </Link>
-                </div>
-
-                {/* Interés Compuesto */}
-                <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
-                  <img
-                    src={calculadoraCompuesta}
-                    alt='interes compuesto'
-                    className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
-                  />
-                  <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
-                    Interés Compuesto
-                  </h2>
-                  <p className='text-gray-600 text-center mb-4'>
-                    Proyecta tus ahorros e inversiones con capitalización.
-                  </p>
-                  <Link
-                    to='/interesCompuesto'
-                    className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
-                  >
-                    Ver Más
-                  </Link>
-                </div>
-
-                {/* Anualidades */}
-                <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
-                  <img
-                    src={calculadoraAnualidad}
-                    alt='anualidades'
-                    className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
-                  />
-                  <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
-                    Anualidades
-                  </h2>
-                  <p className='text-gray-600 text-center mb-4'>
-                    Evalúa pagos periódicos y planifica tus finanzas.
-                  </p>
-                  <Link
-                    to='/anualidades'
-                    className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
-                  >
-                    Ver Más
-                  </Link>
-                </div>
+            {/* Calculadoras / Herramientas financieras */}
+            <div className='mt-20 max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'>
+              {/* Tasa de Interés */}
+              <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
+                <img
+                  src={calculadoraInteres} // Cambia a imagen representativa
+                  alt='tasa de interés'
+                  className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
+                />
+                <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
+                  Tasa de Interés
+                </h2>
+                <p className='text-gray-600 text-center mb-4'>
+                  Consulta y calcula la tasa de interés aplicada a tus
+                  operaciones.
+                </p>
+                <Link
+                  to='/interes'
+                  className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
+                >
+                  Ver Más
+                </Link>
               </div>
+
+              {/* Interés Simple */}
+              <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
+                <img
+                  src={calculadoraSimple}
+                  alt='interes simple'
+                  className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
+                />
+                <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
+                  Interés Simple
+                </h2>
+                <p className='text-gray-600 text-center mb-4'>
+                  Descubre cuánto ganarías o pagarías en tus operaciones.
+                </p>
+                <Link
+                  to='/interesSimple'
+                  className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
+                >
+                  Ver Más
+                </Link>
+              </div>
+
+              {/* Interés Compuesto */}
+              <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
+                <img
+                  src={calculadoraCompuesta}
+                  alt='interes compuesto'
+                  className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
+                />
+                <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
+                  Interés Compuesto
+                </h2>
+                <p className='text-gray-600 text-center mb-4'>
+                  Proyecta tus ahorros e inversiones con capitalización.
+                </p>
+                <Link
+                  to='/interesCompuesto'
+                  className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
+                >
+                  Ver Más
+                </Link>
+              </div>
+
+              {/* Anualidades */}
+              <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
+                <img
+                  src={calculadoraAnualidad}
+                  alt='anualidades'
+                  className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
+                />
+                <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
+                  Anualidades
+                </h2>
+                <p className='text-gray-600 text-center mb-4'>
+                  Evalúa pagos periódicos y planifica tus finanzas.
+                </p>
+                <Link
+                  to='/anualidades'
+                  className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
+                >
+                  Ver Más
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 

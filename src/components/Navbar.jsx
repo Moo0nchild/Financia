@@ -15,7 +15,7 @@ export default function Navbar() {
       <nav className='flex-1 max-w-2xl'>
         <ul className='flex items-center justify-end space-x-8'>
           {[
-            { path: '/', label: 'Inicio' },
+            { path: '/dashboard', label: 'Inicio' },
             { path: '/interes', label: 'Tasa de Interés' },
             { path: '/interesSimple', label: 'Interés Simple' },
             { path: '/interesCompuesto', label: 'Interés Compuesto' },

@@ -25,32 +25,44 @@ function AnimatedRoutes() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/forgotPassword' element={<ForgotPassword />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-
         <Route path='/servicios' element={<ServiciosPage />} />
+        <Route
+          path='/dashboard'
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path='/interes'
           element={
-            <Layout>
-              <Interes />
-            </Layout>
+            <ProtectedRoute>
+              <Layout>
+                <Interes />
+              </Layout>
+            </ProtectedRoute>
           }
         />
         <Route
           path='/interesSimple'
           element={
-            <Layout>
-              <InteresSimple />
-            </Layout>
+            <ProtectedRoute>
+              <Layout>
+                <InteresSimple />
+              </Layout>
+            </ProtectedRoute>
           }
         />
         <Route
           path='/interesCompuesto'
           element={
-            <Layout>
-              <InteresCompuesto />
-            </Layout>
+            <ProtectedRoute>
+              <Layout>
+                <InteresCompuesto />
+              </Layout>
+            </ProtectedRoute>
           }
         />
         <Route
