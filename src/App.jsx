@@ -13,6 +13,8 @@ import { InteresSimple } from './pages/InteresSimple'
 import { AnimatePresence } from 'framer-motion'
 import Layout from './components/Layout'
 import { AuthProvider } from './pages/AuthProvider'
+import ServiciosPage from './pages/servicios'
+import ProtectedRoute from './pages/ProtectedRoute'
 
 function AnimatedRoutes() {
   return (
@@ -22,6 +24,8 @@ function AnimatedRoutes() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/forgotPassword' element={<ForgotPassword />} />
+
+        <Route path='/servicios' element={<ServiciosPage />} />
 
         <Route
           path='/interes'
@@ -50,9 +54,11 @@ function AnimatedRoutes() {
         <Route
           path='/anualidades'
           element={
-            <Layout>
-              <Anualidades />
-            </Layout>
+            <ProtectedRoute>
+              <Layout>
+                <Anualidades />
+              </Layout>
+            </ProtectedRoute>
           }
         />
       </Routes>

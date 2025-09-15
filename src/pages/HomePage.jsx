@@ -20,9 +20,6 @@ export default function Home() {
               <Link to='/home'>Inicio</Link>
             </li>
             <li className='list-none text-xl font-bold text-gray-600 hover:text-white hover:cursor-pointer transition-all duration-200 ease-in-out'>
-              <Link to='/cuenta'>Cuenta</Link>
-            </li>
-            <li className='list-none text-xl font-bold text-gray-600 hover:text-white hover:cursor-pointer transition-all duration-200 ease-in-out'>
               <Link to='/servicios'>Servicios</Link>
             </li>
             <li className='list-none text-xl font-bold text-gray-600 hover:text-white hover:cursor-pointer transition-all duration-200 ease-in-out'>
