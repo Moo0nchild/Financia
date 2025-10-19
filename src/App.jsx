@@ -17,6 +17,7 @@ import ServiciosPage from './pages/servicios'
 import ProtectedRoute from './pages/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
 import { GradientesSeriesVariables } from './pages/GradientesSeriesVariables'
+import { Amortizacion } from './pages/Amortizacion'
 
 function AnimatedRoutes() {
   return (
@@ -82,6 +83,16 @@ function AnimatedRoutes() {
             <ProtectedRoute>
               <Layout>
                 <GradientesSeriesVariables />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/amortizacion'
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Amortizacion />
               </Layout>
             </ProtectedRoute>
           }
