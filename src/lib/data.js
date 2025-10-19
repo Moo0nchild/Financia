@@ -121,3 +121,104 @@ export const anualidadesUtils = {
     return (VA * i) / (1 - Math.pow(1 + i, -n))
   },
 }
+
+
+
+
+// -----------------------------------
+// Gradientes y Series Variables
+// -----------------------------------
+export const calcularGradientes = {
+  // Gradiente Aritmético - Valor Presente
+  valorPresenteAritmetico(A, G, i, n) {
+    return (
+      A * ((1 - Math.pow(1 + i, -n)) / i) +
+      (G * ((1 - Math.pow(1 + i, -n)) / (i * i)) -
+        (n * Math.pow(1 + i, -n)) / i)
+    )
+  },
+
+  // Gradiente Aritmético - Valor Futuro
+  valorFuturoAritmetico(A, G, i, n) {
+    const VP = this.valorPresenteAritmetico(A, G, i, n)
+    return VP * Math.pow(1 + i, n)
+  },
+
+  // Gradiente Aritmético - Serie Uniforme Equivalente
+  serieUniformeAritmetico(A, G, i, n) {
+    const VP = this.valorPresenteAritmetico(A, G, i, n)
+    return (VP * i) / (1 - Math.pow(1 + i, -n))
+  },
+
+  // Gradiente Geométrico - Valor Presente
+  valorPresenteGeometrico(A, g, i, n) {
+    if (i === g) {
+      return (A * n) / (1 + i)
+    } else {
+      return A * ((1 - Math.pow((1 + g) / (1 + i), n)) / (i - g))
+    }
+  },
+
+  // Gradiente Geométrico - Valor Futuro
+  valorFuturoGeometrico(A, g, i, n) {
+    const VP = this.valorPresenteGeometrico(A, g, i, n)
+    return VP * Math.pow(1 + i, n)
+  },
+
+  // Gradiente Geométrico - Serie Uniforme Equivalente
+  serieUniformeGeometrico(A, g, i, n) {
+    const VP = this.valorPresenteGeometrico(A, g, i, n)
+    return (VP * i) / (1 - Math.pow(1 + i, -n))
+  },
+
+  // Calcular A (primera cuota) desde Valor Presente - Gradiente Aritmético
+  calcularADesdeVPAritmetico(VP, G, i, n) {
+    const factorG =
+      G * ((1 - Math.pow(1 + i, -n)) / (i * i)) - (n * Math.pow(1 + i, -n)) / i
+    return (VP - factorG) * (i / (1 - Math.pow(1 + i, -n)))
+  },
+
+  // Calcular G (gradiente) desde Valor Presente - Gradiente Aritmético
+  calcularGDesdeVPAritmetico(VP, A, i, n) {
+    const factorA = A * ((1 - Math.pow(1 + i, -n)) / i)
+    const factorG =
+      (1 - Math.pow(1 + i, -n)) / (i * i) - (n * Math.pow(1 + i, -n)) / i
+    return (VP - factorA) / factorG
+  },
+
+  // Calcular A (primera cuota) desde Valor Presente - Gradiente Geométrico
+  calcularADesdeVPGeometrico(VP, g, i, n) {
+    if (i === g) {
+      return (VP * (1 + i)) / n
+    } else {
+      return VP * ((i - g) / (1 - Math.pow((1 + g) / (1 + i), n)))
+    }
+  },
+
+  // Calcular g (tasa de crecimiento) desde Valor Presente - Gradiente Geométrico
+  calcularGDesdeVPGeometrico(VP, A, i, n) {
+    // Esta función requiere métodos numéricos para resolver
+    // Implementación simplificada usando bisección
+    let low = -0.99
+    let high = 10.0
+    const tolerance = 0.0001
+    const maxIterations = 1000
+
+    for (let iter = 0; iter < maxIterations; iter++) {
+      const mid = (low + high) / 2
+      const vpCalculado = this.valorPresenteGeometrico(A, mid, i, n)
+
+      if (Math.abs(vpCalculado - VP) < tolerance) {
+        return mid
+      }
+
+      if (vpCalculado > VP) {
+        high = mid
+      } else {
+        low = mid
+      }
+    }
+
+    return (low + high) / 2
+  },
+}

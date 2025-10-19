@@ -16,6 +16,7 @@ import { AuthProvider } from './pages/AuthProvider'
 import ServiciosPage from './pages/servicios'
 import ProtectedRoute from './pages/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
+import { GradientesSeriesVariables } from './pages/GradientesSeriesVariables'
 
 function AnimatedRoutes() {
   return (
@@ -71,6 +72,16 @@ function AnimatedRoutes() {
             <ProtectedRoute>
               <Layout>
                 <Anualidades />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/gradientes'
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <GradientesSeriesVariables />
               </Layout>
             </ProtectedRoute>
           }
