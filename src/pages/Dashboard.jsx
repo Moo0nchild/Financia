@@ -261,6 +261,27 @@ export default function HomeLogged() {
                   Ver Más
                 </Link>
               </div>
+
+              {/* Amortizacion */}
+              <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
+                <img
+                  src={calculadoraAnualidad}
+                  alt='anualidades'
+                  className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
+                />
+                <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
+                  Amortizacion 
+                </h2>
+                <p className='text-gray-600 text-center mb-4'>
+                  Evalúa pagos periódicos y planifica tus finanzas.
+                </p>
+                <Link
+                  to='/amortizacion'
+                  className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
+                >
+                  Ver Más
+                </Link>
+              </div>
             </div>
           </div>
         </div>
