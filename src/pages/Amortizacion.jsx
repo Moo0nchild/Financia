@@ -12,17 +12,33 @@ export function Amortizacion() {
   const [n, setN] = useState('')
   const [cuota, setCuota] = useState('')
   const [periodo, setPeriodo] = useState('')
+  const [periodoAmortizacion, setPeriodoAmortizacion] = useState('mensual')
 
-  // Función para normalizar inputs (acepta . y , como decimal)
   const normalizarNumero = (valor) => {
     if (!valor) return ''
     return valor.toString().replace(',', '.')
   }
 
-  // Función para parsear números normalizados
   const parsearNumero = (valor) => {
     const normalizado = normalizarNumero(valor)
     return parseFloat(normalizado)
+  }
+
+  const ajustarTasaSegunPeriodo = (tasaPorcentual, periodo) => {
+    const tasaDecimal = tasaPorcentual / 100
+
+    if (periodo === 'anual') {
+      return tasaDecimal
+    }
+
+    const conversiones = {
+      mensual: tasaDecimal / 12,
+      trimestral: tasaDecimal / 4,
+      semestral: tasaDecimal / 2,
+      diaria: tasaDecimal / 365,
+    }
+
+    return conversiones[periodo] || tasaDecimal
   }
 
   const formatoPesos = (valor) => {
@@ -34,7 +50,6 @@ export function Amortizacion() {
     }).format(valor)
   }
 
-  // Calcular totales de la tabla
   const calcularTotales = (tabla) => {
     const totalCuota = tabla.reduce((sum, fila) => sum + fila.cuota, 0)
     const totalInteres = tabla.reduce((sum, fila) => sum + fila.interes, 0)
@@ -47,7 +62,6 @@ export function Amortizacion() {
     }
   }
 
-  // Calcular amortización constante para sistema alemán
   const calcularAmortizacionConstante = (VP, n) => {
     return VP / n
   }
@@ -69,7 +83,7 @@ export function Amortizacion() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -102,7 +116,7 @@ export function Amortizacion() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -134,7 +148,7 @@ export function Amortizacion() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -174,7 +188,7 @@ export function Amortizacion() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -220,7 +234,7 @@ export function Amortizacion() {
           unidad: 'periodos',
         },
       ],
-      textoResultado: 'La tasa de interés calculada es:',
+      textoResultado: 'La tasa de interés anual calculada es:',
       unidadResultado: '%',
       esMonetario: false,
     },
@@ -247,7 +261,7 @@ export function Amortizacion() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -261,28 +275,37 @@ export function Amortizacion() {
 
   function onSubmitFrances(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoAmortizacion
+    )
     const resultadoCalculo = sistemasAmortizacion.sistemaFrances.calcularCuota(
       parsearNumero(VP),
-      tasaDecimal,
-      parsearNumero(n)
+      tasaAjustada,
+      parsearNumero(n),
+      periodoAmortizacion
     )
     setResultado(resultadoCalculo)
     const tabla = sistemasAmortizacion.sistemaFrances.generarTablaAmortizacion(
       parsearNumero(VP),
-      tasaDecimal,
-      parsearNumero(n)
+      tasaAjustada,
+      parsearNumero(n),
+      periodoAmortizacion
     )
     setTablaAmortizacion(tabla)
   }
 
   function onSubmitAleman(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoAmortizacion
+    )
     const tabla = sistemasAmortizacion.sistemaAleman.generarTablaAmortizacion(
       parsearNumero(VP),
-      tasaDecimal,
-      parsearNumero(n)
+      tasaAjustada,
+      parsearNumero(n),
+      periodoAmortizacion
     )
     setTablaAmortizacion(tabla)
     setResultado(tabla.length)
@@ -290,13 +313,17 @@ export function Amortizacion() {
 
   function onSubmitAlemanPeriodo(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoAmortizacion
+    )
     const resultadoCalculo =
       sistemasAmortizacion.sistemaAleman.calcularCuotaPeriodo(
         parsearNumero(VP),
-        tasaDecimal,
+        tasaAjustada,
         parsearNumero(n),
-        parsearNumero(periodo)
+        parsearNumero(periodo),
+        periodoAmortizacion
       )
     setResultado(resultadoCalculo)
     setTablaAmortizacion([])
@@ -304,12 +331,16 @@ export function Amortizacion() {
 
   function onSubmitAmericano(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoAmortizacion
+    )
     const tabla =
       sistemasAmortizacion.sistemaAmericano.generarTablaAmortizacion(
         parsearNumero(VP),
-        tasaDecimal,
-        parsearNumero(n)
+        tasaAjustada,
+        parsearNumero(n),
+        periodoAmortizacion
       )
     setTablaAmortizacion(tabla)
     setResultado(tabla.length)
@@ -320,19 +351,36 @@ export function Amortizacion() {
     const resultadoCalculo = sistemasAmortizacion.calcularTasaDesdeCuota(
       parsearNumero(VP),
       parsearNumero(cuota),
-      parsearNumero(n)
+      parsearNumero(n),
+      periodoAmortizacion
     )
-    setResultado(resultadoCalculo * 100)
+    const tasaAnual =
+      resultadoCalculo *
+      (periodoAmortizacion === 'mensual'
+        ? 12
+        : periodoAmortizacion === 'trimestral'
+        ? 4
+        : periodoAmortizacion === 'semestral'
+        ? 2
+        : periodoAmortizacion === 'diaria'
+        ? 365
+        : 1) *
+      100
+    setResultado(tasaAnual)
     setTablaAmortizacion([])
   }
 
   function onSubmitCalcularPeriodos(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoAmortizacion
+    )
     const resultadoCalculo = sistemasAmortizacion.calcularPeriodosDesdeCuota(
       parsearNumero(VP),
       parsearNumero(cuota),
-      tasaDecimal
+      tasaAjustada,
+      periodoAmortizacion
     )
     setResultado(Math.ceil(resultadoCalculo))
     setTablaAmortizacion([])
@@ -356,7 +404,6 @@ export function Amortizacion() {
     setResultado(null)
     setTablaAmortizacion([])
 
-    // Establecer opción por defecto según el sistema
     if (value === 'frances') {
       setOpcion('frances')
     } else if (value === 'aleman') {
@@ -377,8 +424,6 @@ export function Amortizacion() {
   const config = opcionesConfig[opcion]
   const totales =
     tablaAmortizacion.length > 0 ? calcularTotales(tablaAmortizacion) : null
-
-  // Calcular amortización constante para mostrar en sistema alemán
   const amortizacionConstante =
     sistema === 'aleman' && VP && n
       ? calcularAmortizacionConstante(parsearNumero(VP), parsearNumero(n))
@@ -411,7 +456,7 @@ export function Amortizacion() {
           </div>
 
           <div className='mb-8 bg-white rounded-xl shadow-lg p-6'>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
               <div>
                 <label
                   htmlFor='sistema-select'
@@ -452,21 +497,62 @@ export function Amortizacion() {
                   ))}
                 </select>
               </div>
+
+              <div>
+                <label
+                  htmlFor='periodo-select'
+                  className='block text-sm font-medium text-gray-700 mb-2'
+                >
+                  Periodo de Amortización:
+                </label>
+                <select
+                  id='periodo-select'
+                  onChange={(e) => setPeriodoAmortizacion(e.target.value)}
+                  value={periodoAmortizacion}
+                  className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-gray-50'
+                >
+                  <option value='mensual'>Mensual</option>
+                  <option value='trimestral'>Trimestral</option>
+                  <option value='semestral'>Semestral</option>
+                  <option value='anual'>Anual</option>
+                  <option value='diaria'>Diaria</option>
+                </select>
+              </div>
             </div>
 
-            {/* Mostrar amortización constante para sistema alemán */}
+            <div className='mt-4 p-3 bg-indigo-50 border border-indigo-200 rounded-lg'>
+              <p className='text-indigo-700 text-sm'>
+                <strong>Periodo seleccionado:</strong>{' '}
+                {periodoAmortizacion.charAt(0).toUpperCase() +
+                  periodoAmortizacion.slice(1)}
+                {i && (
+                  <span className='ml-2'>
+                    • Tasa {periodoAmortizacion}:{' '}
+                    {(
+                      ajustarTasaSegunPeriodo(
+                        parsearNumero(i),
+                        periodoAmortizacion
+                      ) * 100
+                    ).toFixed(4)}
+                    %
+                  </span>
+                )}
+              </p>
+            </div>
+
             {sistema === 'aleman' && VP && n && (
               <div className='mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg'>
                 <div className='flex justify-between items-center'>
                   <span className='text-blue-800 font-medium'>
-                    Amortización Constante:
+                    Amortización Constante ({periodoAmortizacion}):
                   </span>
                   <span className='text-xl font-bold text-blue-700'>
                     {formatoPesos(amortizacionConstante)}
                   </span>
                 </div>
                 <p className='text-blue-600 text-sm mt-1'>
-                  Esta es la cantidad fija de capital que se paga cada periodo
+                  Esta es la cantidad fija de capital que se paga cada periodo{' '}
+                  {periodoAmortizacion}
                 </p>
               </div>
             )}
@@ -476,6 +562,13 @@ export function Amortizacion() {
             <div className='bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white'>
               <h2 className='text-2xl font-semibold mb-2'>{config.titulo}</h2>
               <p className='opacity-90'>{config.descripcion}</p>
+              <div className='mt-2 bg-purple-500 bg-opacity-20 p-2 rounded'>
+                <p className='text-sm'>
+                  <strong>Periodo:</strong>{' '}
+                  {periodoAmortizacion.charAt(0).toUpperCase() +
+                    periodoAmortizacion.slice(1)}
+                </p>
+              </div>
             </div>
 
             <div className='p-6'>
@@ -547,6 +640,9 @@ export function Amortizacion() {
                   <div className='text-2xl font-bold text-green-700 mt-1'>
                     {formatoPesos(resultado)}
                   </div>
+                  <p className='text-green-600 text-sm mt-2'>
+                    Cuota {periodoAmortizacion} constante durante {n} periodos
+                  </p>
                 </div>
               )}
 
@@ -559,13 +655,13 @@ export function Amortizacion() {
                     {formatoPesos(resultado)}
                   </div>
                   <div className='mt-2 text-green-700'>
-                    <p>Desglose:</p>
+                    <p>Desglose del periodo {periodo}:</p>
                     <div className='flex justify-between mt-1'>
                       <span>Amortización constante:</span>
                       <span>{formatoPesos(amortizacionConstante)}</span>
                     </div>
                     <div className='flex justify-between'>
-                      <span>Interés del periodo {periodo}:</span>
+                      <span>Interés del periodo:</span>
                       <span>
                         {formatoPesos(resultado - amortizacionConstante)}
                       </span>
@@ -580,7 +676,9 @@ export function Amortizacion() {
             <div className='bg-white rounded-xl shadow-lg overflow-hidden'>
               <div className='bg-gradient-to-r from-green-600 to-teal-600 p-6 text-white'>
                 <h2 className='text-2xl font-semibold mb-2'>
-                  Tabla de Amortización
+                  Tabla de Amortización - Periodo{' '}
+                  {periodoAmortizacion.charAt(0).toUpperCase() +
+                    periodoAmortizacion.slice(1)}
                 </h2>
                 <p className='opacity-90'>
                   Detalle de pagos, intereses, capital y saldos por periodo
@@ -589,7 +687,8 @@ export function Amortizacion() {
                   <div className='mt-2 bg-teal-500 bg-opacity-20 p-2 rounded'>
                     <p className='text-sm'>
                       <strong>Amortización Constante:</strong>{' '}
-                      {formatoPesos(amortizacionConstante)} por periodo
+                      {formatoPesos(amortizacionConstante)} por periodo{' '}
+                      {periodoAmortizacion}
                     </p>
                   </div>
                 )}
@@ -603,7 +702,7 @@ export function Amortizacion() {
                         Periodo
                       </th>
                       <th className='px-4 py-3 font-semibold text-gray-700'>
-                        Cuota
+                        Cuota ({periodoAmortizacion})
                       </th>
                       <th className='px-4 py-3 font-semibold text-gray-700'>
                         Interés
@@ -638,7 +737,6 @@ export function Amortizacion() {
                       </tr>
                     ))}
                   </tbody>
-                  {/* Sección de totales */}
                   {totales && (
                     <tfoot className='bg-blue-50 font-semibold'>
                       <tr>
@@ -670,7 +768,9 @@ export function Amortizacion() {
                           </div>
                           {sistema === 'aleman' && (
                             <div className='flex justify-between'>
-                              <span>Amortización constante:</span>
+                              <span>
+                                Amortización constante ({periodoAmortizacion}):
+                              </span>
                               <span>{formatoPesos(amortizacionConstante)}</span>
                             </div>
                           )}
@@ -694,13 +794,17 @@ export function Amortizacion() {
               </p>
               <p>
                 <strong>Sistema Alemán:</strong> Amortización constante con
-                cuotas decrecientes. La parte de capital es fija (
-                {formatoPesos(amortizacionConstante)} por periodo), los
-                intereses disminuyen.
+                cuotas decrecientes. La parte de capital es fija, los intereses
+                disminuyen cada periodo.
               </p>
               <p>
                 <strong>Sistema Americano:</strong> Solo se pagan intereses
                 periódicamente y el capital completo al final del plazo.
+              </p>
+              <p className='mt-2 text-yellow-800 font-medium'>
+                Periodo actual:{' '}
+                {periodoAmortizacion.charAt(0).toUpperCase() +
+                  periodoAmortizacion.slice(1)}
               </p>
             </div>
           </div>

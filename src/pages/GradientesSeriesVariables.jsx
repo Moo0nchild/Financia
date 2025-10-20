@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { calcularGradientes } from '../lib/data'
+import { calcularGradientes, conversionesTasa, conversionesTasa1 } from '../lib/data'
 import PageWrapper from '../components/PageWrapper'
 
 export function GradientesSeriesVariables() {
@@ -13,17 +13,30 @@ export function GradientesSeriesVariables() {
   const [n, setN] = useState('')
   const [VP, setVP] = useState('')
   const [VF, setVF] = useState('')
+  const [periodoGradiente, setPeriodoGradiente] = useState('mensual')
 
-  // Función para normalizar inputs (acepta . y , como decimal)
   const normalizarNumero = (valor) => {
     if (!valor) return ''
     return valor.toString().replace(',', '.')
   }
 
-  // Función para parsear números normalizados
   const parsearNumero = (valor) => {
     const normalizado = normalizarNumero(valor)
     return parseFloat(normalizado)
+  }
+
+  const ajustarTasaSegunPeriodo = (tasaPorcentual, periodo) => {
+    return conversionesTasa1.convertirTasaAnual(tasaPorcentual, periodo)
+  }
+
+  const ajustarTasaCrecimientoSegunPeriodo = (
+    tasaCrecimientoPorcentual,
+    periodo
+  ) => {
+    return conversionesTasa1.convertirTasaCrecimientoAnual(
+      tasaCrecimientoPorcentual,
+      periodo
+    )
   }
 
   const formatoPesos = (valor) => {
@@ -60,7 +73,7 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -99,7 +112,7 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -140,7 +153,7 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -179,7 +192,7 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -220,7 +233,7 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -259,7 +272,7 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -293,14 +306,14 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'g',
-          label: 'Tasa de crecimiento (g):',
+          label: 'Tasa de crecimiento anual (g):',
           value: g,
           onChange: setg,
           unidad: '%',
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -332,14 +345,14 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'g',
-          label: 'Tasa de crecimiento (g):',
+          label: 'Tasa de crecimiento anual (g):',
           value: g,
           onChange: setg,
           unidad: '%',
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -373,14 +386,14 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'g',
-          label: 'Tasa de crecimiento (g):',
+          label: 'Tasa de crecimiento anual (g):',
           value: g,
           onChange: setg,
           unidad: '%',
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -419,7 +432,7 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -432,7 +445,7 @@ export function GradientesSeriesVariables() {
           unidad: 'periodos',
         },
       ],
-      textoResultado: 'La tasa de crecimiento (g) calculada es:',
+      textoResultado: 'La tasa de crecimiento anual (g) calculada es:',
       esMonetario: false,
       unidadResultado: '%',
     },
@@ -454,14 +467,14 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'g',
-          label: 'Tasa de crecimiento (g):',
+          label: 'Tasa de crecimiento anual (g):',
           value: g,
           onChange: setg,
           unidad: '%',
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -500,7 +513,7 @@ export function GradientesSeriesVariables() {
         },
         {
           id: 'i',
-          label: 'Tasa de interés:',
+          label: 'Tasa de interés anual:',
           value: i,
           onChange: setI,
           unidad: '%',
@@ -513,7 +526,7 @@ export function GradientesSeriesVariables() {
           unidad: 'periodos',
         },
       ],
-      textoResultado: 'La tasa de crecimiento (g) calculada es:',
+      textoResultado: 'La tasa de crecimiento anual (g) calculada es:',
       esMonetario: false,
       unidadResultado: '%',
     },
@@ -522,78 +535,96 @@ export function GradientesSeriesVariables() {
   // Funciones de cálculo - GRADIENTE ARITMÉTICO
   function onSubmitVPAritmetico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
+    )
     const resultadoCalculo = calcularGradientes.valorPresenteAritmetico(
       parsearNumero(A),
       parsearNumero(G),
-      tasaDecimal,
-      parsearNumero(n)
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitVFAritmetico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
+    )
     const resultadoCalculo = calcularGradientes.valorFuturoAritmetico(
       parsearNumero(A),
       parsearNumero(G),
-      tasaDecimal,
-      parsearNumero(n)
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitADesdeVPAritmetico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
+    )
     const resultadoCalculo = calcularGradientes.calcularADesdeVPAritmetico(
       parsearNumero(VP),
       parsearNumero(G),
-      tasaDecimal,
-      parsearNumero(n)
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitGDesdeVPAritmetico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
+    )
     const resultadoCalculo = calcularGradientes.calcularGDesdeVPAritmetico(
       parsearNumero(VP),
       parsearNumero(A),
-      tasaDecimal,
-      parsearNumero(n)
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitADesdeVFAritmetico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
-    // Para calcular A desde VF, primero calculamos VP y luego A
-    const VPCalculado =
-      parsearNumero(VF) / Math.pow(1 + tasaDecimal, parsearNumero(n))
-    const resultadoCalculo = calcularGradientes.calcularADesdeVPAritmetico(
-      VPCalculado,
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
+    )
+    const resultadoCalculo = calcularGradientes.calcularADesdeVFAritmetico(
+      parsearNumero(VF),
       parsearNumero(G),
-      tasaDecimal,
-      parsearNumero(n)
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitGDesdeVFAritmetico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
-    // Para calcular G desde VF, primero calculamos VP y luego G
-    const VPCalculado =
-      parsearNumero(VF) / Math.pow(1 + tasaDecimal, parsearNumero(n))
-    const resultadoCalculo = calcularGradientes.calcularGDesdeVPAritmetico(
-      VPCalculado,
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
+    )
+    const resultadoCalculo = calcularGradientes.calcularGDesdeVFAritmetico(
+      parsearNumero(VF),
       parsearNumero(A),
-      tasaDecimal,
-      parsearNumero(n)
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
     )
     setResultado(resultadoCalculo)
   }
@@ -601,84 +632,146 @@ export function GradientesSeriesVariables() {
   // Funciones de cálculo - GRADIENTE GEOMÉTRICO
   function onSubmitVPGeometrico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
-    const crecimientoDecimal = parsearNumero(g) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
+    )
+    const crecimientoAjustado = ajustarTasaCrecimientoSegunPeriodo(
+      parsearNumero(g),
+      periodoGradiente
+    )
     const resultadoCalculo = calcularGradientes.valorPresenteGeometrico(
       parsearNumero(A),
-      crecimientoDecimal,
-      tasaDecimal,
-      parsearNumero(n)
+      crecimientoAjustado,
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitVFGeometrico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
-    const crecimientoDecimal = parsearNumero(g) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
+    )
+    const crecimientoAjustado = ajustarTasaCrecimientoSegunPeriodo(
+      parsearNumero(g),
+      periodoGradiente
+    )
     const resultadoCalculo = calcularGradientes.valorFuturoGeometrico(
       parsearNumero(A),
-      crecimientoDecimal,
-      tasaDecimal,
-      parsearNumero(n)
+      crecimientoAjustado,
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitADesdeVPGeometrico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
-    const crecimientoDecimal = parsearNumero(g) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
+    )
+    const crecimientoAjustado = ajustarTasaCrecimientoSegunPeriodo(
+      parsearNumero(g),
+      periodoGradiente
+    )
     const resultadoCalculo = calcularGradientes.calcularADesdeVPGeometrico(
       parsearNumero(VP),
-      crecimientoDecimal,
-      tasaDecimal,
-      parsearNumero(n)
+      crecimientoAjustado,
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitGDesdeVPGeometrico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
+    )
     const resultadoCalculo = calcularGradientes.calcularGDesdeVPGeometrico(
       parsearNumero(VP),
       parsearNumero(A),
-      tasaDecimal,
-      parsearNumero(n)
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
     )
-    setResultado(resultadoCalculo * 100) // Convertir a porcentaje
+    // Convertir la tasa de crecimiento de vuelta a anual para mostrar
+    const tasaCrecimientoAnual =
+      (Math.pow(
+        1 + resultadoCalculo,
+        periodoGradiente === 'mensual'
+          ? 12
+          : periodoGradiente === 'trimestral'
+          ? 4
+          : periodoGradiente === 'semestral'
+          ? 2
+          : periodoGradiente === 'diaria'
+          ? 365
+          : 1
+      ) -
+        1) *
+      100
+    setResultado(tasaCrecimientoAnual)
   }
 
   function onSubmitADesdeVFGeometrico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
-    const crecimientoDecimal = parsearNumero(g) / 100
-    // Para calcular A desde VF, primero calculamos VP y luego A
-    const VPCalculado =
-      parsearNumero(VF) / Math.pow(1 + tasaDecimal, parsearNumero(n))
-    const resultadoCalculo = calcularGradientes.calcularADesdeVPGeometrico(
-      VPCalculado,
-      crecimientoDecimal,
-      tasaDecimal,
-      parsearNumero(n)
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
+    )
+    const crecimientoAjustado = ajustarTasaCrecimientoSegunPeriodo(
+      parsearNumero(g),
+      periodoGradiente
+    )
+    const resultadoCalculo = calcularGradientes.calcularADesdeVFGeometrico(
+      parsearNumero(VF),
+      crecimientoAjustado,
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
     )
     setResultado(resultadoCalculo)
   }
 
   function onSubmitGDesdeVFGeometrico(e) {
     e.preventDefault()
-    const tasaDecimal = parsearNumero(i) / 100
-    // Para calcular g desde VF, primero calculamos VP y luego g
-    const VPCalculado =
-      parsearNumero(VF) / Math.pow(1 + tasaDecimal, parsearNumero(n))
-    const resultadoCalculo = calcularGradientes.calcularGDesdeVPGeometrico(
-      VPCalculado,
-      parsearNumero(A),
-      tasaDecimal,
-      parsearNumero(n)
+    const tasaAjustada = ajustarTasaSegunPeriodo(
+      parsearNumero(i),
+      periodoGradiente
     )
-    setResultado(resultadoCalculo * 100) // Convertir a porcentaje
+    const resultadoCalculo = calcularGradientes.calcularGDesdeVFGeometrico(
+      parsearNumero(VF),
+      parsearNumero(A),
+      tasaAjustada,
+      parsearNumero(n),
+      periodoGradiente
+    )
+    // Convertir la tasa de crecimiento de vuelta a anual para mostrar
+    const tasaCrecimientoAnual =
+      (Math.pow(
+        1 + resultadoCalculo,
+        periodoGradiente === 'mensual'
+          ? 12
+          : periodoGradiente === 'trimestral'
+          ? 4
+          : periodoGradiente === 'semestral'
+          ? 2
+          : periodoGradiente === 'diaria'
+          ? 365
+          : 1
+      ) -
+        1) *
+      100
+    setResultado(tasaCrecimientoAnual)
   }
 
   function handleSelectChange(e) {
@@ -748,7 +841,7 @@ export function GradientesSeriesVariables() {
           </div>
 
           <div className='mb-8 bg-white rounded-xl shadow-lg p-6'>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
               <div>
                 <label
                   htmlFor='tipo-gradiente'
@@ -787,6 +880,59 @@ export function GradientesSeriesVariables() {
                   ))}
                 </select>
               </div>
+
+              <div>
+                <label
+                  htmlFor='periodo-gradiente'
+                  className='block text-sm font-medium text-gray-700 mb-2'
+                >
+                  Periodo del Gradiente:
+                </label>
+                <select
+                  id='periodo-gradiente'
+                  onChange={(e) => setPeriodoGradiente(e.target.value)}
+                  value={periodoGradiente}
+                  className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-gray-50'
+                >
+                  <option value='mensual'>Mensual</option>
+                  <option value='trimestral'>Trimestral</option>
+                  <option value='semestral'>Semestral</option>
+                  <option value='anual'>Anual</option>
+                  <option value='diaria'>Diaria</option>
+                </select>
+              </div>
+            </div>
+
+            <div className='mt-4 p-3 bg-indigo-50 border border-indigo-200 rounded-lg'>
+              <p className='text-indigo-700 text-sm'>
+                <strong>Periodo seleccionado:</strong>{' '}
+                {periodoGradiente.charAt(0).toUpperCase() +
+                  periodoGradiente.slice(1)}
+                {i && (
+                  <span className='ml-2'>
+                    • Tasa {periodoGradiente}:{' '}
+                    {(
+                      ajustarTasaSegunPeriodo(
+                        parsearNumero(i),
+                        periodoGradiente
+                      ) * 100
+                    ).toFixed(4)}
+                    %
+                  </span>
+                )}
+                {g && tipoGradiente === 'geometrico' && (
+                  <span className='ml-2'>
+                    • Crecimiento {periodoGradiente}:{' '}
+                    {(
+                      ajustarTasaCrecimientoSegunPeriodo(
+                        parsearNumero(g),
+                        periodoGradiente
+                      ) * 100
+                    ).toFixed(4)}
+                    %
+                  </span>
+                )}
+              </p>
             </div>
           </div>
 
@@ -794,6 +940,13 @@ export function GradientesSeriesVariables() {
             <div className='bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white'>
               <h2 className='text-2xl font-semibold mb-2'>{config.titulo}</h2>
               <p className='opacity-90'>{config.descripcion}</p>
+              <div className='mt-2 bg-purple-500 bg-opacity-20 p-2 rounded'>
+                <p className='text-sm'>
+                  <strong>Periodo:</strong>{' '}
+                  {periodoGradiente.charAt(0).toUpperCase() +
+                    periodoGradiente.slice(1)}
+                </p>
+              </div>
             </div>
 
             <div className='p-6'>
@@ -855,6 +1008,9 @@ export function GradientesSeriesVariables() {
                           config.unidadResultado || ''
                         }`}
                   </div>
+                  <p className='text-green-600 text-sm mt-2'>
+                    Cálculo realizado con periodo {periodoGradiente}
+                  </p>
                 </div>
               )}
             </div>
@@ -874,6 +1030,11 @@ export function GradientesSeriesVariables() {
                 <strong>Gradiente Geométrico:</strong> Serie de pagos que
                 aumentan o disminuyen en un porcentaje constante cada periodo.
                 Ejemplo: $100, $110, $121, $133.10... (g = 10%)
+              </p>
+              <p className='mt-2 text-yellow-800 font-medium'>
+                Periodo actual:{' '}
+                {periodoGradiente.charAt(0).toUpperCase() +
+                  periodoGradiente.slice(1)}
               </p>
             </div>
           </div>
