@@ -18,6 +18,8 @@ import ProtectedRoute from './pages/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
 import { GradientesSeriesVariables } from './pages/GradientesSeriesVariables'
 import { Amortizacion } from './pages/Amortizacion'
+import { SistemasCapitalizacion } from './pages/SistemasCapitalizacion'
+import { TasaInteresRetorno } from './pages/TasaInteresRetorno'
 
 function AnimatedRoutes() {
   return (
@@ -93,6 +95,26 @@ function AnimatedRoutes() {
             <ProtectedRoute>
               <Layout>
                 <Amortizacion />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/capitalizacion'
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <SistemasCapitalizacion />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/tir'
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <TasaInteresRetorno />
               </Layout>
             </ProtectedRoute>
           }

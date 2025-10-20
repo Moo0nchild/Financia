@@ -10,6 +10,8 @@ import calculadoraCompuesta from '../assets/Foto2.jpg'
 import calculadoraAnualidad from '../assets/Foto1.jpg'
 import calculadoraGradiente from '../assets/Foto3.jpg'
 import calculadoraAmortizacion from '../assets/Foto4.jpg'
+import calculadoraCapitalizacion  from '../assets/Foto5.jpg'
+import calculadoraTIR from '../assets/Foto6.jpg'
 
 import ConfiguracionImg from '../assets/Configuracion.png'
 import UsuarioImg from '../assets/User.png'
@@ -283,6 +285,52 @@ export default function HomeLogged() {
                   Ver Más
                 </Link>
               </div>
+
+
+              {/* Sistemas de Capitalización */}
+              <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
+                <img
+                  src={calculadoraCapitalizacion}
+                  alt='Sistemas de Capitalizacion'
+                  className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
+                />
+                <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
+                  Sistemas de Capitalización
+                </h2>
+                <p className='text-gray-600 text-center mb-4'>
+                  Calcula el crecimiento del dinero a calculadoraTIRtravés del interés simple o compuesto.
+                </p>
+                <Link
+                  to='/capitalizacion'
+                  className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
+                >
+                  Ver Más
+                </Link>
+              </div>
+
+              {/* Tasa Interna de Retorno */}
+              <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
+                <img
+                  src={calculadoraTIR}
+                  alt='Tasa Interna de Retorno'
+                  className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
+                />
+                <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
+                  Tasa Interna de Retorno (TIR)
+                </h2>
+                <p className='text-gray-600 text-center mb-4'>
+                  Calcula la rentabilidad real de un proyecto y compárala con tu TMAR.
+                </p>
+                <Link
+                  to='/tir'
+                  className='bg-[#002B50] text-white px-6 py-2 rounded-xl text-lg hover:bg-[#005080] transition-colors'
+                >
+                  Ver Más
+                </Link>
+              </div>
+
+
+
             </div>
           </div>
         </div>
