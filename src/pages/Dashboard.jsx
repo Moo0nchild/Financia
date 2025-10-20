@@ -8,6 +8,8 @@ import calculadoraInteres from '../assets/interes-simple.jpeg'
 import calculadoraSimple from '../assets/compuesto.jpg'
 import calculadoraCompuesta from '../assets/Foto2.jpg'
 import calculadoraAnualidad from '../assets/Foto1.jpg'
+import calculadoraGradiente from '../assets/Foto3.jpg'
+import calculadoraAmortizacion from '../assets/Foto4.jpg'
 
 import ConfiguracionImg from '../assets/Configuracion.png'
 import UsuarioImg from '../assets/User.png'
@@ -240,19 +242,18 @@ export default function HomeLogged() {
                 </Link>
               </div>
 
-              {/* ----------------------------------------------------------------- */}
-              {/* Gradiente */}
+              {/* Gradiente - DESCRIPCIÓN ACTUALIZADA */}
               <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
                 <img
-                  src={calculadoraAnualidad}
-                  alt='anualidades'
+                  src={calculadoraGradiente}
+                  alt='Gradiente'
                   className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
                 />
                 <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
                   Gradientes y Series Variables
                 </h2>
                 <p className='text-gray-600 text-center mb-4'>
-                  Evalúa pagos periódicos y planifica tus finanzas.
+                  Calcula pagos que aumentan o disminuyen con el tiempo.
                 </p>
                 <Link
                   to='/gradientes'
@@ -262,18 +263,18 @@ export default function HomeLogged() {
                 </Link>
               </div>
 
-              {/* Amortizacion */}
+              {/* Amortización - DESCRIPCIÓN ACTUALIZADA */}
               <div className='bg-white shadow-md rounded-3xl p-6 flex flex-col items-center justify-center transform transition-transform duration-300 hover:shadow-xl hover:-translate-y-2'>
                 <img
-                  src={calculadoraAnualidad}
-                  alt='anualidades'
+                  src={calculadoraAmortizacion}
+                  alt='Amortizacion'
                   className='w-4/5 h-40 object-cover rounded-2xl mb-4 transition-transform duration-300 hover:scale-105'
                 />
                 <h2 className='text-xl font-bold text-[#002B50] mb-2 text-center'>
-                  Amortizacion 
+                  Sistemas de Amortización
                 </h2>
                 <p className='text-gray-600 text-center mb-4'>
-                  Evalúa pagos periódicos y planifica tus finanzas.
+                  Planifica el pago de tus préstamos con diferentes métodos.
                 </p>
                 <Link
                   to='/amortizacion'
