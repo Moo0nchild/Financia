@@ -13,6 +13,34 @@ export const calcularInteres = {
   },
 }
 
+// // -----------------------------------
+// // Interés Simple
+// // -----------------------------------
+// export const calcularInteresSimple = {
+//   calcularInteresSimple(capitalInicial, tasa, tiempoEnAnios) {
+//     return capitalInicial * tasa * tiempoEnAnios
+//   },
+
+//   calcularValorFuturo(capitalInicial, tasa, tiempoEnAnios) {
+//     return capitalInicial * (1 + tasa * tiempoEnAnios)
+//   },
+
+//   calcularCapital(montoFinal, tasa, tiempoEnAnios) {
+//     return montoFinal / (1 + tasa * tiempoEnAnios)
+//   },
+
+//   calcularTasa(capitalInicial, montoFinal, tiempoEnAnios) {
+//     return (montoFinal / capitalInicial - 1) / tiempoEnAnios
+//   },
+
+//   calcularTiempo(capitalInicial, montoFinal, tasa) {
+//     return (montoFinal / capitalInicial - 1) / tasa
+//   },
+// }
+
+// -----------------------------------
+// Interés Simple
+// -----------------------------------
 // -----------------------------------
 // Interés Simple
 // -----------------------------------
@@ -35,6 +63,29 @@ export const calcularInteresSimple = {
 
   calcularTiempo(capitalInicial, montoFinal, tasa) {
     return (montoFinal / capitalInicial - 1) / tasa
+  },
+
+  // NUEVA FUNCIÓN: Calcular retiro parcial
+  calcularRetiroParcial(capitalInicial, tasa, tiempoEnAnios, fraccionRetiro) {
+    // Calcular el monto total acumulado
+    const montoTotal = this.calcularValorFuturo(
+      capitalInicial,
+      tasa,
+      tiempoEnAnios
+    )
+    // Calcular el monto a retirar
+    const montoRetirado = montoTotal * fraccionRetiro
+
+    return {
+      montoTotal: montoTotal,
+      montoRetirado: montoRetirado,
+      montoRestante: montoTotal - montoRetirado,
+      interesGenerado: this.calcularInteresSimple(
+        capitalInicial,
+        tasa,
+        tiempoEnAnios
+      ),
+    }
   },
 }
 
@@ -122,379 +173,264 @@ export const anualidadesUtils = {
   },
 }
 
-// // -----------------------------------
-// // Gradientes y Series Variables - CORREGIDAS
-// // -----------------------------------
-// export const calcularGradientes = {
-//   // Gradiente Aritmético - Valor Presente
-//   valorPresenteAritmetico(A, G, i, n) {
-//     const factorP_A = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n))
-//     const factorP_G =
-//       (1 / i) *
-//       ((Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n)) -
-//         n / Math.pow(1 + i, n))
-//     return A * factorP_A + G * factorP_G
-//   },
+// -----------------------------------
+// Utilidades para conversión de periodos
+// -----------------------------------
+export const conversionesTasa = {
+  // Convertir tasa nominal a efectiva según el periodo
+  convertirTasa(tasa, periodoOrigen, periodoDestino) {
+    const periodosPorAno = {
+      diaria: 365,
+      mensual: 12,
+      trimestral: 4,
+      semestral: 2,
+      anual: 1,
+    }
 
-//   // Gradiente Aritmético - Valor Futuro
-//   valorFuturoAritmetico(A, G, i, n) {
-//     const factorF_A = (Math.pow(1 + i, n) - 1) / i
-//     const factorF_G = (1 / i) * ((Math.pow(1 + i, n) - 1) / i - n)
-//     return A * factorF_A + G * factorF_G
-//   },
+    if (periodoOrigen === periodoDestino) {
+      return tasa
+    }
 
-//   // Gradiente Aritmético - Serie Uniforme Equivalente
-//   serieUniformeAritmetico(A, G, i, n) {
-//     const factorA_G = 1 / i - n / (Math.pow(1 + i, n) - 1)
-//     return A + G * factorA_G
-//   },
+    // Convertir a tasa efectiva anual primero
+    const tasaEfectivaAnual =
+      Math.pow(1 + tasa, periodosPorAno[periodoOrigen]) - 1
 
-//   // Gradiente Geométrico - Valor Presente
-//   valorPresenteGeometrico(A, g, i, n) {
-//     if (Math.abs(i - g) < 0.0001) {
-//       return (A * n) / (1 + i)
-//     } else {
-//       return (A / (i - g)) * (1 - Math.pow((1 + g) / (1 + i), n))
-//     }
-//   },
+    // Convertir de anual al periodo destino
+    const tasaDestino =
+      Math.pow(1 + tasaEfectivaAnual, 1 / periodosPorAno[periodoDestino]) - 1
 
-//   // Gradiente Geométrico - Valor Futuro
-//   valorFuturoGeometrico(A, g, i, n) {
-//     if (Math.abs(i - g) < 0.0001) {
-//       return A * n * Math.pow(1 + i, n - 1)
-//     } else {
-//       return (A / (i - g)) * (Math.pow(1 + i, n) - Math.pow(1 + g, n))
-//     }
-//   },
+    return tasaDestino
+  },
 
-//   // Gradiente Geométrico - Serie Uniforme Equivalente
-//   serieUniformeGeometrico(A, g, i, n) {
-//     const VP = this.valorPresenteGeometrico(A, g, i, n)
-//     const factorA_P = (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1)
-//     return VP * factorA_P
-//   },
+  // Convertir número de periodos según la frecuencia
+  convertirPeriodos(n, periodoOrigen, periodoDestino) {
+    const equivalencias = {
+      diaria: {
+        mensual: 30,
+        trimestral: 90,
+        semestral: 180,
+        anual: 365,
+      },
+      mensual: {
+        diaria: 1 / 30,
+        trimestral: 3,
+        semestral: 6,
+        anual: 12,
+      },
+      trimestral: {
+        diaria: 1 / 90,
+        mensual: 1 / 3,
+        semestral: 2,
+        anual: 4,
+      },
+      semestral: {
+        diaria: 1 / 180,
+        mensual: 1 / 6,
+        trimestral: 1 / 2,
+        anual: 2,
+      },
+      anual: {
+        diaria: 1 / 365,
+        mensual: 1 / 12,
+        trimestral: 1 / 4,
+        semestral: 1 / 2,
+      },
+    }
 
-//   // Calcular A desde VP - Gradiente Aritmético
-//   calcularADesdeVPAritmetico(VP, G, i, n) {
-//     const factorP_A = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n))
-//     const factorP_G =
-//       (1 / i) *
-//       ((Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n)) -
-//         n / Math.pow(1 + i, n))
-//     return (VP - G * factorP_G) / factorP_A
-//   },
+    if (periodoOrigen === periodoDestino) {
+      return n
+    }
 
-//   // Calcular G desde VP - Gradiente Aritmético
-//   calcularGDesdeVPAritmetico(VP, A, i, n) {
-//     const factorP_A = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n))
-//     const factorP_G =
-//       (1 / i) *
-//       ((Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n)) -
-//         n / Math.pow(1 + i, n))
-//     return (VP - A * factorP_A) / factorP_G
-//   },
+    return n * equivalencias[periodoOrigen][periodoDestino]
+  },
+}
 
-//   // Calcular A desde VP - Gradiente Geométrico
-//   calcularADesdeVPGeometrico(VP, g, i, n) {
-//     if (Math.abs(i - g) < 0.0001) {
-//       return (VP * (1 + i)) / n
-//     } else {
-//       const factor = (1 / (i - g)) * (1 - Math.pow((1 + g) / (1 + i), n))
-//       return VP / factor
-//     }
-//   },
+/// -----------------------------------
+// Utilidades para conversión de periodos
+// -----------------------------------
+export const conversionesTasa1 = {
+  // Convertir tasa nominal a efectiva según el periodo
+  convertirTasa(tasa, periodoOrigen, periodoDestino) {
+    const periodosPorAno = {
+      diaria: 365,
+      mensual: 12,
+      trimestral: 4,
+      semestral: 2,
+      anual: 1,
+    }
 
-//   // Calcular g desde VP - Gradiente Geométrico (método numérico)
-//   calcularGDesdeVPGeometrico(VP, A, i, n) {
-//     let low = -0.99
-//     let high = 5.0
-//     const tolerance = 0.000001
-//     const maxIterations = 1000
+    if (periodoOrigen === periodoDestino) {
+      return tasa
+    }
 
-//     for (let iter = 0; iter < maxIterations; iter++) {
-//       const mid = (low + high) / 2
-//       const vpCalculado = this.valorPresenteGeometrico(A, mid, i, n)
+    // Convertir a tasa efectiva anual primero
+    const tasaEfectivaAnual =
+      Math.pow(1 + tasa, periodosPorAno[periodoOrigen]) - 1
 
-//       if (Math.abs(vpCalculado - VP) < tolerance) {
-//         return mid
-//       }
+    // Convertir de anual al periodo destino
+    const tasaDestino =
+      Math.pow(1 + tasaEfectivaAnual, 1 / periodosPorAno[periodoDestino]) - 1
 
-//       if (vpCalculado < VP) {
-//         low = mid
-//       } else {
-//         high = mid
-//       }
-//     }
+    return tasaDestino
+  },
 
-//     return (low + high) / 2
-//   },
-// }
+  // Convertir número de periodos según la frecuencia
+  convertirPeriodos(n, periodoOrigen, periodoDestino) {
+    const equivalencias = {
+      diaria: {
+        mensual: 30,
+        trimestral: 90,
+        semestral: 180,
+        anual: 365,
+      },
+      mensual: {
+        diaria: 1 / 30,
+        trimestral: 3,
+        semestral: 6,
+        anual: 12,
+      },
+      trimestral: {
+        diaria: 1 / 90,
+        mensual: 1 / 3,
+        semestral: 2,
+        anual: 4,
+      },
+      semestral: {
+        diaria: 1 / 180,
+        mensual: 1 / 6,
+        trimestral: 1 / 2,
+        anual: 2,
+      },
+      anual: {
+        diaria: 1 / 365,
+        mensual: 1 / 12,
+        trimestral: 1 / 4,
+        semestral: 1 / 2,
+      },
+    }
 
-// // -----------------------------------
-// // Sistemas de Amortización - CORREGIDOS
-// // -----------------------------------
-// export const sistemasAmortizacion = {
-//   // Sistema Francés (Cuota Constante)
-//   sistemaFrances: {
-//     calcularCuota(VP, i, n) {
-//       return (VP * i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1)
-//     },
+    if (periodoOrigen === periodoDestino) {
+      return n
+    }
 
-//     generarTablaAmortizacion(VP, i, n) {
-//       const cuota = this.calcularCuota(VP, i, n)
-//       const tabla = []
-//       let saldo = VP
+    return n * equivalencias[periodoOrigen][periodoDestino]
+  },
 
-//       for (let periodo = 1; periodo <= n; periodo++) {
-//         const interes = saldo * i
-//         const capital = cuota - interes
-//         saldo -= capital
+  // Convertir tasa anual a la periodicidad seleccionada
+  convertirTasaAnual(tasaAnual, periodo) {
+    const tasaDecimal = tasaAnual / 100
 
-//         if (periodo === n) {
-//           saldo = 0
-//         }
+    if (periodo === 'anual') {
+      return tasaDecimal
+    }
 
-//         tabla.push({
-//           periodo,
-//           cuota,
-//           interes,
-//           capital,
-//           saldo: Math.max(saldo, 0),
-//         })
-//       }
+    const conversiones = {
+      mensual: tasaDecimal / 12,
+      trimestral: tasaDecimal / 4,
+      semestral: tasaDecimal / 2,
+      diaria: tasaDecimal / 365,
+    }
 
-//       return tabla
-//     },
+    return conversiones[periodo] || tasaDecimal
+  },
 
-//     calcularInteresTotal(VP, i, n) {
-//       const cuota = this.calcularCuota(VP, i, n)
-//       return cuota * n - VP
-//     },
-//   },
+  // Convertir tasa de crecimiento anual a la periodicidad seleccionada
+  convertirTasaCrecimientoAnual(tasaCrecimientoAnual, periodo) {
+    const tasaDecimal = tasaCrecimientoAnual / 100
 
-//   // Sistema Alemán (Amortización Constante)
-//   sistemaAleman: {
-//     calcularAmortizacionConstante(VP, n) {
-//       return VP / n
-//     },
+    if (periodo === 'anual') {
+      return tasaDecimal
+    }
 
-//     calcularCuotaPeriodo(VP, i, n, periodo) {
-//       const amortizacion = this.calcularAmortizacionConstante(VP, n)
-//       const saldoInicial = VP - amortizacion * (periodo - 1)
-//       const interes = saldoInicial * i
-//       return amortizacion + interes
-//     },
+    const conversiones = {
+      mensual: Math.pow(1 + tasaDecimal, 1 / 12) - 1,
+      trimestral: Math.pow(1 + tasaDecimal, 1 / 4) - 1,
+      semestral: Math.pow(1 + tasaDecimal, 1 / 2) - 1,
+      diaria: Math.pow(1 + tasaDecimal, 1 / 365) - 1,
+    }
 
-//     generarTablaAmortizacion(VP, i, n) {
-//       const amortizacion = this.calcularAmortizacionConstante(VP, n)
-//       const tabla = []
-//       let saldo = VP
-
-//       for (let periodo = 1; periodo <= n; periodo++) {
-//         const interes = saldo * i
-//         const cuota = amortizacion + interes
-//         saldo -= amortizacion
-
-//         tabla.push({
-//           periodo,
-//           cuota,
-//           interes,
-//           capital: amortizacion,
-//           saldo: Math.max(saldo, 0),
-//         })
-//       }
-
-//       return tabla
-//     },
-
-//     calcularInteresTotal(VP, i, n) {
-//       const amortizacion = VP / n
-//       let interesTotal = 0
-//       let saldo = VP
-
-//       for (let periodo = 1; periodo <= n; periodo++) {
-//         interesTotal += saldo * i
-//         saldo -= amortizacion
-//       }
-
-//       return interesTotal
-//     },
-//   },
-
-//   // Sistema Americano (Solo intereses + pago final)
-//   sistemaAmericano: {
-//     calcularCuotaIntereses(VP, i) {
-//       return VP * i
-//     },
-
-//     generarTablaAmortizacion(VP, i, n) {
-//       const cuotaIntereses = this.calcularCuotaIntereses(VP, i)
-//       const tabla = []
-//       let saldo = VP
-
-//       for (let periodo = 1; periodo <= n; periodo++) {
-//         const interes = VP * i
-//         let capital = 0
-//         let cuota = interes
-
-//         if (periodo === n) {
-//           capital = VP
-//           cuota = interes + capital
-//           saldo = 0
-//         }
-
-//         tabla.push({
-//           periodo,
-//           cuota,
-//           interes,
-//           capital,
-//           saldo: periodo === n ? 0 : saldo,
-//         })
-//       }
-
-//       return tabla
-//     },
-
-//     calcularInteresTotal(VP, i, n) {
-//       return VP * i * n
-//     },
-//   },
-
-//   // Cálculos generales
-//   calcularTasaDesdeCuota(VP, cuota, n) {
-//     let low = 0.000001
-//     let high = 1.0
-//     const tolerance = 0.000001
-//     const maxIterations = 1000
-
-//     for (let iter = 0; iter < maxIterations; iter++) {
-//       const mid = (low + high) / 2
-//       const cuotaCalculada =
-//         (VP * mid * Math.pow(1 + mid, n)) / (Math.pow(1 + mid, n) - 1)
-
-//       if (Math.abs(cuotaCalculada - cuota) < tolerance) {
-//         return mid
-//       }
-
-//       if (cuotaCalculada > cuota) {
-//         high = mid
-//       } else {
-//         low = mid
-//       }
-//     }
-
-//     return (low + high) / 2
-//   },
-
-//   calcularPeriodosDesdeCuota(VP, cuota, i) {
-//     if (cuota <= VP * i) {
-//       return Infinity
-//     }
-//     return Math.log(cuota / (cuota - VP * i)) / Math.log(1 + i)
-//   },
-
-//   calcularSaldoInsoluto(VP, i, n, periodo) {
-//     const cuota = (VP * i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1)
-//     const periodosRestantes = n - periodo
-//     return (
-//       (cuota * (Math.pow(1 + i, periodosRestantes) - 1)) /
-//       (i * Math.pow(1 + i, periodosRestantes))
-//     )
-//   },
-// }
+    return conversiones[periodo] || tasaDecimal
+  },
+}
 
 // -----------------------------------
-// Gradientes y Series Variables - VERIFICADAS
+// Gradientes y Series Variables - CORREGIDO
 // -----------------------------------
 export const calcularGradientes = {
   // Gradiente Aritmético - Valor Presente
-  // Fórmula: VP = A * (P/A, i%, n) + G * (P/G, i%, n)
-  valorPresenteAritmetico(A, G, i, n) {
-    // Factor (P/A)
-    const factor_PA = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n))
+  valorPresenteAritmetico(A, G, i, n, periodo = 'anual') {
+    // Factor P/A para la anualidad base
+    const factor_PA = (1 - Math.pow(1 + i, -n)) / i
 
-    // Factor (P/G)
+    // Factor P/G para el gradiente
     const factor_PG =
-      (Math.pow(1 + i, n) - i * n - 1) / (Math.pow(i, 2) * Math.pow(1 + i, n))
+      ((1 - Math.pow(1 + i, -n)) / i - n / Math.pow(1 + i, n)) / i
 
     return A * factor_PA + G * factor_PG
   },
 
   // Gradiente Aritmético - Valor Futuro
-  // Fórmula: VF = A * (F/A, i%, n) + G * (F/G, i%, n)
-  valorFuturoAritmetico(A, G, i, n) {
-    // Factor (F/A)
+  valorFuturoAritmetico(A, G, i, n, periodo = 'anual') {
+    // Factor F/A para la anualidad base
     const factor_FA = (Math.pow(1 + i, n) - 1) / i
 
-    // Factor (F/G)
-    const factor_FG = (Math.pow(1 + i, n) - 1) / Math.pow(i, 2) - n / i
+    // Factor F/G para el gradiente
+    const factor_FG = ((Math.pow(1 + i, n) - 1) / i - n) / i
 
     return A * factor_FA + G * factor_FG
   },
 
   // Gradiente Aritmético - Serie Uniforme Equivalente
-  // Fórmula: A_eq = A + G * (A/G, i%, n)
-  serieUniformeAritmetico(A, G, i, n) {
-    // Factor (A/G)
+  serieUniformeAritmetico(A, G, i, n, periodo = 'anual') {
     const factor_AG = 1 / i - n / (Math.pow(1 + i, n) - 1)
-
     return A + G * factor_AG
   },
 
   // Gradiente Geométrico - Valor Presente
-  // Fórmula: VP = A * [(1 - (1+g)^n * (1+i)^-n) / (i - g)] si i ≠ g
-  //          VP = A * n / (1 + i) si i = g
-  valorPresenteGeometrico(A, g, i, n) {
+  valorPresenteGeometrico(A, g, i, n, periodo = 'anual') {
     if (Math.abs(i - g) < 0.0001) {
-      // Caso especial: i = g
       return (A * n) / (1 + i)
     } else {
-      // Caso general: i ≠ g
       return (A / (i - g)) * (1 - Math.pow((1 + g) / (1 + i), n))
     }
   },
 
   // Gradiente Geométrico - Valor Futuro
-  // Fórmula: VF = A * [(1+i)^n - (1+g)^n] / (i - g) si i ≠ g
-  //          VF = A * n * (1+i)^(n-1) si i = g
-  valorFuturoGeometrico(A, g, i, n) {
+  valorFuturoGeometrico(A, g, i, n, periodo = 'anual') {
     if (Math.abs(i - g) < 0.0001) {
-      // Caso especial: i = g
       return A * n * Math.pow(1 + i, n - 1)
     } else {
-      // Caso general: i ≠ g
       return (A / (i - g)) * (Math.pow(1 + i, n) - Math.pow(1 + g, n))
     }
   },
 
   // Gradiente Geométrico - Serie Uniforme Equivalente
-  serieUniformeGeometrico(A, g, i, n) {
+  serieUniformeGeometrico(A, g, i, n, periodo = 'anual') {
     const VP = this.valorPresenteGeometrico(A, g, i, n)
-    // Convertir VP a anualidad usando (A/P)
     const factor_AP = (i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1)
     return VP * factor_AP
   },
 
   // Calcular A desde VP - Gradiente Aritmético
-  calcularADesdeVPAritmetico(VP, G, i, n) {
-    const factor_PA = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n))
+  calcularADesdeVPAritmetico(VP, G, i, n, periodo = 'anual') {
+    const factor_PA = (1 - Math.pow(1 + i, -n)) / i
     const factor_PG =
-      (Math.pow(1 + i, n) - i * n - 1) / (Math.pow(i, 2) * Math.pow(1 + i, n))
+      ((1 - Math.pow(1 + i, -n)) / i - n / Math.pow(1 + i, n)) / i
 
     return (VP - G * factor_PG) / factor_PA
   },
 
   // Calcular G desde VP - Gradiente Aritmético
-  calcularGDesdeVPAritmetico(VP, A, i, n) {
-    const factor_PA = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n))
+  calcularGDesdeVPAritmetico(VP, A, i, n, periodo = 'anual') {
+    const factor_PA = (1 - Math.pow(1 + i, -n)) / i
     const factor_PG =
-      (Math.pow(1 + i, n) - i * n - 1) / (Math.pow(i, 2) * Math.pow(1 + i, n))
+      ((1 - Math.pow(1 + i, -n)) / i - n / Math.pow(1 + i, n)) / i
 
     return (VP - A * factor_PA) / factor_PG
   },
 
   // Calcular A desde VP - Gradiente Geométrico
-  calcularADesdeVPGeometrico(VP, g, i, n) {
+  calcularADesdeVPGeometrico(VP, g, i, n, periodo = 'anual') {
     if (Math.abs(i - g) < 0.0001) {
       return (VP * (1 + i)) / n
     } else {
@@ -504,7 +440,7 @@ export const calcularGradientes = {
   },
 
   // Calcular g desde VP - Gradiente Geométrico (método numérico)
-  calcularGDesdeVPGeometrico(VP, A, i, n) {
+  calcularGDesdeVPGeometrico(VP, A, i, n, periodo = 'anual') {
     let low = -0.99
     let high = 5.0
     const tolerance = 0.000001
@@ -527,6 +463,38 @@ export const calcularGradientes = {
 
     return (low + high) / 2
   },
+
+  // Calcular A desde VF - Gradiente Aritmético
+  calcularADesdeVFAritmetico(VF, G, i, n, periodo = 'anual') {
+    // Primero calcular VP desde VF
+    const VP = VF / Math.pow(1 + i, n)
+    // Luego calcular A desde VP
+    return this.calcularADesdeVPAritmetico(VP, G, i, n, periodo)
+  },
+
+  // Calcular G desde VF - Gradiente Aritmético
+  calcularGDesdeVFAritmetico(VF, A, i, n, periodo = 'anual') {
+    // Primero calcular VP desde VF
+    const VP = VF / Math.pow(1 + i, n)
+    // Luego calcular G desde VP
+    return this.calcularGDesdeVPAritmetico(VP, A, i, n, periodo)
+  },
+
+  // Calcular A desde VF - Gradiente Geométrico
+  calcularADesdeVFGeometrico(VF, g, i, n, periodo = 'anual') {
+    // Primero calcular VP desde VF
+    const VP = VF / Math.pow(1 + i, n)
+    // Luego calcular A desde VP
+    return this.calcularADesdeVPGeometrico(VP, g, i, n, periodo)
+  },
+
+  // Calcular g desde VF - Gradiente Geométrico
+  calcularGDesdeVFGeometrico(VF, A, i, n, periodo = 'anual') {
+    // Primero calcular VP desde VF
+    const VP = VF / Math.pow(1 + i, n)
+    // Luego calcular g desde VP
+    return this.calcularGDesdeVPGeometrico(VP, A, i, n, periodo)
+  },
 }
 
 // -----------------------------------
@@ -535,28 +503,26 @@ export const calcularGradientes = {
 export const sistemasAmortizacion = {
   // Sistema Francés (Cuota Constante)
   sistemaFrances: {
-    // Fórmula: Cuota = VP * [i(1+i)^n] / [(1+i)^n - 1]
-    calcularCuota(VP, i, n) {
+    calcularCuota(VP, i, n, periodo = 'anual') {
       return (VP * i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1)
     },
 
-    generarTablaAmortizacion(VP, i, n) {
-      const cuota = this.calcularCuota(VP, i, n)
+    generarTablaAmortizacion(VP, i, n, periodo = 'anual') {
+      const cuota = this.calcularCuota(VP, i, n, periodo)
       const tabla = []
       let saldo = VP
 
-      for (let periodo = 1; periodo <= n; periodo++) {
+      for (let periodoNum = 1; periodoNum <= n; periodoNum++) {
         const interes = saldo * i
         const capital = cuota - interes
         saldo -= capital
 
-        // Ajuste para evitar errores de redondeo en el último periodo
-        if (periodo === n && Math.abs(saldo) < 0.01) {
+        if (periodoNum === n && Math.abs(saldo) < 0.01) {
           saldo = 0
         }
 
         tabla.push({
-          periodo,
+          periodo: periodoNum,
           cuota: Number(cuota.toFixed(2)),
           interes: Number(interes.toFixed(2)),
           capital: Number(capital.toFixed(2)),
@@ -567,42 +533,41 @@ export const sistemasAmortizacion = {
       return tabla
     },
 
-    calcularInteresTotal(VP, i, n) {
-      const cuota = this.calcularCuota(VP, i, n)
+    calcularInteresTotal(VP, i, n, periodo = 'anual') {
+      const cuota = this.calcularCuota(VP, i, n, periodo)
       return cuota * n - VP
     },
   },
 
   // Sistema Alemán (Amortización Constante)
   sistemaAleman: {
-    calcularAmortizacionConstante(VP, n) {
+    calcularAmortizacionConstante(VP, n, periodo = 'anual') {
       return VP / n
     },
 
-    calcularCuotaPeriodo(VP, i, n, periodo) {
-      const amortizacion = this.calcularAmortizacionConstante(VP, n)
-      const saldoInicial = VP - amortizacion * (periodo - 1)
+    calcularCuotaPeriodo(VP, i, n, periodoNum, periodo = 'anual') {
+      const amortizacion = this.calcularAmortizacionConstante(VP, n, periodo)
+      const saldoInicial = VP - amortizacion * (periodoNum - 1)
       const interes = saldoInicial * i
       return amortizacion + interes
     },
 
-    generarTablaAmortizacion(VP, i, n) {
-      const amortizacion = this.calcularAmortizacionConstante(VP, n)
+    generarTablaAmortizacion(VP, i, n, periodo = 'anual') {
+      const amortizacion = this.calcularAmortizacionConstante(VP, n, periodo)
       const tabla = []
       let saldo = VP
 
-      for (let periodo = 1; periodo <= n; periodo++) {
+      for (let periodoNum = 1; periodoNum <= n; periodoNum++) {
         const interes = saldo * i
         const cuota = amortizacion + interes
         saldo -= amortizacion
 
-        // Ajuste para evitar errores de redondeo en el último periodo
-        if (periodo === n && Math.abs(saldo) < 0.01) {
+        if (periodoNum === n && Math.abs(saldo) < 0.01) {
           saldo = 0
         }
 
         tabla.push({
-          periodo,
+          periodo: periodoNum,
           cuota: Number(cuota.toFixed(2)),
           interes: Number(interes.toFixed(2)),
           capital: Number(amortizacion.toFixed(2)),
@@ -613,12 +578,12 @@ export const sistemasAmortizacion = {
       return tabla
     },
 
-    calcularInteresTotal(VP, i, n) {
+    calcularInteresTotal(VP, i, n, periodo = 'anual') {
       const amortizacion = VP / n
       let interesTotal = 0
       let saldo = VP
 
-      for (let periodo = 1; periodo <= n; periodo++) {
+      for (let periodoNum = 1; periodoNum <= n; periodoNum++) {
         interesTotal += saldo * i
         saldo -= amortizacion
       }
@@ -629,29 +594,28 @@ export const sistemasAmortizacion = {
 
   // Sistema Americano (Solo intereses + pago final)
   sistemaAmericano: {
-    calcularCuotaIntereses(VP, i) {
+    calcularCuotaIntereses(VP, i, periodo = 'anual') {
       return VP * i
     },
 
-    generarTablaAmortizacion(VP, i, n) {
-      const cuotaIntereses = this.calcularCuotaIntereses(VP, i)
+    generarTablaAmortizacion(VP, i, n, periodo = 'anual') {
+      const cuotaIntereses = this.calcularCuotaIntereses(VP, i, periodo)
       const tabla = []
 
-      for (let periodo = 1; periodo <= n; periodo++) {
+      for (let periodoNum = 1; periodoNum <= n; periodoNum++) {
         const interes = VP * i
         let capital = 0
         let cuota = interes
         let saldo = VP
 
-        // En el último periodo se paga el capital completo
-        if (periodo === n) {
+        if (periodoNum === n) {
           capital = VP
           cuota = interes + capital
           saldo = 0
         }
 
         tabla.push({
-          periodo,
+          periodo: periodoNum,
           cuota: Number(cuota.toFixed(2)),
           interes: Number(interes.toFixed(2)),
           capital: Number(capital.toFixed(2)),
@@ -662,13 +626,13 @@ export const sistemasAmortizacion = {
       return tabla
     },
 
-    calcularInteresTotal(VP, i, n) {
+    calcularInteresTotal(VP, i, n, periodo = 'anual') {
       return VP * i * n
     },
   },
 
   // Cálculos generales
-  calcularTasaDesdeCuota(VP, cuota, n) {
+  calcularTasaDesdeCuota(VP, cuota, n, periodo = 'anual') {
     let low = 0.000001
     let high = 1.0
     const tolerance = 0.000001
@@ -693,16 +657,16 @@ export const sistemasAmortizacion = {
     return (low + high) / 2
   },
 
-  calcularPeriodosDesdeCuota(VP, cuota, i) {
+  calcularPeriodosDesdeCuota(VP, cuota, i, periodo = 'anual') {
     if (cuota <= VP * i) {
       return Infinity
     }
     return Math.log(cuota / (cuota - VP * i)) / Math.log(1 + i)
   },
 
-  calcularSaldoInsoluto(VP, i, n, periodo) {
+  calcularSaldoInsoluto(VP, i, n, periodoNum, periodo = 'anual') {
     const cuota = (VP * i * Math.pow(1 + i, n)) / (Math.pow(1 + i, n) - 1)
-    const periodosRestantes = n - periodo
+    const periodosRestantes = n - periodoNum
     return (
       (cuota * (Math.pow(1 + i, periodosRestantes) - 1)) /
       (i * Math.pow(1 + i, periodosRestantes))
