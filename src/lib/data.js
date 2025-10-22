@@ -41,6 +41,9 @@ export const calcularInteres = {
 // -----------------------------------
 // Interés Simple
 // -----------------------------------
+// -----------------------------------
+// Interés Simple
+// -----------------------------------
 export const calcularInteresSimple = {
   calcularInteresSimple(capitalInicial, tasa, tiempoEnAnios) {
     return capitalInicial * tasa * tiempoEnAnios
@@ -62,117 +65,26 @@ export const calcularInteresSimple = {
     return (montoFinal / capitalInicial - 1) / tasa
   },
 
-  // NUEVAS FUNCIONES PARA OPERACIONES MÚLTIPLES
-  calcularOperacionMultiple(operaciones) {
-    let capitalActual = operaciones.capitalInicial
-    let resultados = []
-    let tiempoAcumulado = 0
-
-    for (let i = 0; i < operaciones.acciones.length; i++) {
-      const accion = operaciones.acciones[i]
-      const tiempoTranscurrido =
-        accion.tiempoAnios +
-        (accion.tiempoMeses || 0) / 12 +
-        (accion.tiempoDias || 0) / 360
-
-      // Calcular interés durante este período
-      const interes = capitalActual * operaciones.tasa * tiempoTranscurrido
-      const montoFinalPeriodo = capitalActual + interes
-
-      // Aplicar la acción (retiro, deposito, o nada)
-      let capitalDespuesAccion = capitalActual
-      let montoOperacion = 0
-
-      switch (accion.tipo) {
-        case 'retiro':
-          montoOperacion =
-            accion.monto || capitalActual * (accion.porcentaje / 100)
-          capitalDespuesAccion = capitalActual - montoOperacion
-          break
-        case 'deposito':
-          montoOperacion =
-            accion.monto || capitalActual * (accion.porcentaje / 100)
-          capitalDespuesAccion = capitalActual + montoOperacion
-          break
-        case 'final':
-          // Solo calcular el interés, no modificar el capital
-          capitalDespuesAccion = montoFinalPeriodo
-          break
-      }
-
-      resultados.push({
-        periodo: i + 1,
-        descripcion:
-          accion.descripcion || this.generarDescripcionAccion(accion),
-        capitalInicial: capitalActual,
-        tiempoTranscurrido,
-        interesGenerado: interes,
-        montoFinalPeriodo,
-        tipoAccion: accion.tipo,
-        montoOperacion: accion.tipo !== 'final' ? montoOperacion : 0,
-        capitalFinal: capitalDespuesAccion,
-        tiempoAcumulado: tiempoAcumulado + tiempoTranscurrido,
-      })
-
-      capitalActual = capitalDespuesAccion
-      tiempoAcumulado += tiempoTranscurrido
-    }
-
-    return {
-      capitalInicial: operaciones.capitalInicial,
-      tasa: operaciones.tasa,
-      operaciones: resultados,
-      capitalFinal: capitalActual,
-      interesTotal: resultados.reduce((sum, op) => sum + op.interesGenerado, 0),
-    }
-  },
-
-  generarDescripcionAccion(accion) {
-    switch (accion.tipo) {
-      case 'retiro':
-        if (accion.monto) {
-          return `Retiro de $${accion.monto.toLocaleString()}`
-        } else {
-          return `Retiro del ${accion.porcentaje}%`
-        }
-      case 'deposito':
-        if (accion.monto) {
-          return `Depósito de $${accion.monto.toLocaleString()}`
-        } else {
-          return `Depósito del ${accion.porcentaje}%`
-        }
-      case 'final':
-        return 'Período final'
-      default:
-        return 'Operación'
-    }
-  },
-
-  // Función para resolver el ejercicio específico de Juan
-  resolverEjercicioJuan() {
-    const capitalInicial = 6000
-    const tasa = 0.048 // 4.8% anual
-    const tiempoTotal = 2.5 // 2 años y medio
-
-    // Calcular monto después de 2.5 años
-    const montoDespues25Anios = this.calcularValorFuturo(
+  // NUEVA FUNCIÓN: Calcular retiro parcial
+  calcularRetiroParcial(capitalInicial, tasa, tiempoEnAnios, fraccionRetiro) {
+    // Calcular el monto total acumulado
+    const montoTotal = this.calcularValorFuturo(
       capitalInicial,
       tasa,
-      tiempoTotal
+      tiempoEnAnios
     )
-
-    // Retirar 3/4
-    const retiro = montoDespues25Anios * 0.75
-    const capitalRestante = montoDespues25Anios - retiro
+    // Calcular el monto a retirar
+    const montoRetirado = montoTotal * fraccionRetiro
 
     return {
-      capitalInicial,
-      tasa: tasa * 100,
-      tiempoTotal,
-      montoDespues25Anios,
-      retiro,
-      capitalRestante,
-      descripcion: `Juan invierte $${capitalInicial.toLocaleString()} al 4.8% anual. Después de 2.5 años acumula $${montoDespues25Anios.toLocaleString()}. Retira 3/4 ($${retiro.toLocaleString()}) y le queda $${capitalRestante.toLocaleString()}.`,
+      montoTotal: montoTotal,
+      montoRetirado: montoRetirado,
+      montoRestante: montoTotal - montoRetirado,
+      interesGenerado: this.calcularInteresSimple(
+        capitalInicial,
+        tasa,
+        tiempoEnAnios
+      ),
     }
   },
 }
@@ -442,22 +354,28 @@ export const conversionesTasa1 = {
 }
 
 // -----------------------------------
-// Gradientes y Series Variables - MODIFICADAS CON PERIODOS
+// Gradientes y Series Variables - CORREGIDO
 // -----------------------------------
 export const calcularGradientes = {
   // Gradiente Aritmético - Valor Presente
   valorPresenteAritmetico(A, G, i, n, periodo = 'anual') {
-    const factor_PA = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n))
+    // Factor P/A para la anualidad base
+    const factor_PA = (1 - Math.pow(1 + i, -n)) / i
+
+    // Factor P/G para el gradiente
     const factor_PG =
-      (Math.pow(1 + i, n) - i * n - 1) / (Math.pow(i, 2) * Math.pow(1 + i, n))
+      ((1 - Math.pow(1 + i, -n)) / i - n / Math.pow(1 + i, n)) / i
 
     return A * factor_PA + G * factor_PG
   },
 
   // Gradiente Aritmético - Valor Futuro
   valorFuturoAritmetico(A, G, i, n, periodo = 'anual') {
+    // Factor F/A para la anualidad base
     const factor_FA = (Math.pow(1 + i, n) - 1) / i
-    const factor_FG = (Math.pow(1 + i, n) - 1) / Math.pow(i, 2) - n / i
+
+    // Factor F/G para el gradiente
+    const factor_FG = ((Math.pow(1 + i, n) - 1) / i - n) / i
 
     return A * factor_FA + G * factor_FG
   },
@@ -495,18 +413,18 @@ export const calcularGradientes = {
 
   // Calcular A desde VP - Gradiente Aritmético
   calcularADesdeVPAritmetico(VP, G, i, n, periodo = 'anual') {
-    const factor_PA = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n))
+    const factor_PA = (1 - Math.pow(1 + i, -n)) / i
     const factor_PG =
-      (Math.pow(1 + i, n) - i * n - 1) / (Math.pow(i, 2) * Math.pow(1 + i, n))
+      ((1 - Math.pow(1 + i, -n)) / i - n / Math.pow(1 + i, n)) / i
 
     return (VP - G * factor_PG) / factor_PA
   },
 
   // Calcular G desde VP - Gradiente Aritmético
   calcularGDesdeVPAritmetico(VP, A, i, n, periodo = 'anual') {
-    const factor_PA = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n))
+    const factor_PA = (1 - Math.pow(1 + i, -n)) / i
     const factor_PG =
-      (Math.pow(1 + i, n) - i * n - 1) / (Math.pow(i, 2) * Math.pow(1 + i, n))
+      ((1 - Math.pow(1 + i, -n)) / i - n / Math.pow(1 + i, n)) / i
 
     return (VP - A * factor_PA) / factor_PG
   },
